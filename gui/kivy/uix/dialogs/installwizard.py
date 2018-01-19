@@ -88,10 +88,10 @@ Builder.load_string('''
             height: self.minimum_height
             Label:
                 color: root.text_color
-                text: 'BITCOIN NANO'
+                text: 'BitCoin Nano'
                 size_hint: 1, None
                 height: self.texture_size[1] if self.opacity else 0
-                font_size: '31sp'
+                font_size: '33sp'
                 font_name: 'gui/kivy/data/fonts/tron/Tr2n.ttf'
         GridLayout:
             cols: 1
@@ -475,6 +475,8 @@ class WizardDialog(EventsDialog):
             self.wizard.go_back()
             return
         params = self.get_params(button)
+        print(params)
+        print(self.run_next, type(self.run_next))
         self.run_next(*params)
 
 
@@ -566,7 +568,6 @@ class RestoreSeedDialog(WizardDialog):
         self.message = _('Please type your seed phrase using the virtual keyboard.')
         self.title = _('Enter Seed')
         self.ext = False
-	self.is_bip39_145=False
 
     def options_dialog(self):
         from .seed_options import SeedOptionsDialog
@@ -667,7 +668,7 @@ class RestoreSeedDialog(WizardDialog):
             tis.focus = False
 
     def get_params(self, b):
-        return (self.get_text(), False, self.ext, self.is_bip39_145)
+        return (self.get_text(), False, self.ext)
 
 
 class ConfirmSeedDialog(RestoreSeedDialog):

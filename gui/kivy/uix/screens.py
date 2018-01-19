@@ -90,6 +90,7 @@ class CScreen(Factory.Screen):
 TX_ICONS = [
     "close",
     "close",
+
     "unconfirmed",
     "close",
     "clock1",
@@ -473,7 +474,7 @@ address_icon = {
     'Pending' : 'atlas://gui/kivy/theming/light/important',
     'Paid' : 'atlas://gui/kivy/theming/light/confirmed'
 }
-
+ 
 class AddressScreen(CScreen):
     kvname = 'address'
     cards = {}
@@ -512,6 +513,10 @@ class AddressScreen(CScreen):
     def update(self):
         self.menu_actions = [('Receive', self.do_show), ('Details', self.do_view)]
         wallet = self.app.wallet
+        if not hasattr(wallet,'change_addresses'):
+            wallet.change_addresses=[]
+        if not hasattr(wallet,'receiving_addresses'):
+            wallet.receiving_addresses=[]
         _list = wallet.change_addresses if self.screen.show_change else wallet.receiving_addresses
         search = self.screen.message
         container = self.screen.ids.search_container

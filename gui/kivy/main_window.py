@@ -7,6 +7,7 @@ import traceback
 from decimal import Decimal
 import threading
 
+import bitcoinnano
 from bitcoinnano.bitcoin import TYPE_ADDRESS
 from bitcoinnano import WalletStorage, Wallet
 from bitcoinnano_gui.kivy.i18n import _
@@ -28,12 +29,11 @@ from kivy.factory import Factory
 from kivy.metrics import inch
 from kivy.lang import Builder
 
-# lazy imports for factory so that widgets can be used in kv
-#Factory.register('InstallWizard',
-#                 module='bitcoinnano_gui.kivy.uix.dialogs.installwizard')
-#Factory.register('InfoBubble', module='bitcoinnano_gui.kivy.uix.dialogs')
-#Factory.register('OutputList', module='bitcoinnano_gui.kivy.uix.dialogs')
-#Factory.register('OutputItem', module='bitcoinnano_gui.kivy.uix.dialogs')
+## lazy imports for factory so that widgets can be used in kv
+#Factory.register('InstallWizard', module='electrum_gui.kivy.uix.dialogs.installwizard')
+#Factory.register('InfoBubble', module='electrum_gui.kivy.uix.dialogs')
+#Factory.register('OutputList', module='electrum_gui.kivy.uix.dialogs')
+#Factory.register('OutputItem', module='electrum_gui.kivy.uix.dialogs')
 
 from .uix.dialogs.installwizard import InstallWizard
 from .uix.dialogs import InfoBubble
@@ -150,7 +150,7 @@ class ElectrumWindow(App):
         self._trigger_update_history()
 
     def _get_bu(self):
-        return self.electrum_config.get('base_unit', 'mBCH')
+        return self.electrum_config.get('base_unit', 'mBTN')
 
     def _set_bu(self, value):
         assert value in base_units.keys()
@@ -471,7 +471,7 @@ class ElectrumWindow(App):
         self.fiat_unit = self.fx.ccy if self.fx.is_enabled() else ''
         # default tab
         self.switch_to('history')
-        # bind intent for bitcoinnano: URI scheme
+        # bind intent for bitcoin: URI scheme
         if platform == 'android':
             from android import activity
             from jnius import autoclass

@@ -62,3 +62,4 @@ class WalletDialog(Factory.Popup):
 
     def open_wallet(self, app):
         app.load_wallet_by_name(self.ids.wallet_selector.selection[0])
+

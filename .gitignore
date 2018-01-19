@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Python template
+__pycache__/
+*.pyc
+*$py.class
+build/
+dist/
+.eggs/
+*.egg-info/
+.idea

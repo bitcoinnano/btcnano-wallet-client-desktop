@@ -5,7 +5,7 @@ from kivy.lang import Builder
 
 from bitcoinnano.util import base_units
 from bitcoinnano.i18n import languages
-from bitcoinnano.kivy.i18n import _
+from bitcoinnano_gui.kivy.i18n import _
 from bitcoinnano.plugins import run_hook
 from bitcoinnano import coinchooser
 from bitcoinnano.util import fee_levels

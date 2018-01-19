@@ -385,10 +385,18 @@ class ElectrumWindow(App):
         popup.open()
 
     def scan_qr(self, on_complete):
-        if platform != 'android':
-            return
-        from jnius import autoclass
-        from android import activity
+        flag = True
+        try:
+            if platform != 'android':
+                return
+            from jnius import autoclass
+            from android import activity
+            flag = False
+        except Exception as e:
+            pass
+        finally:
+            if flag:
+                self.show_info('Please install the Barcode Scanner app from ZXing')
         PythonActivity = autoclass('org.kivy.android.PythonActivity')
         Intent = autoclass('android.content.Intent')
         intent = Intent("com.google.zxing.client.android.SCAN")

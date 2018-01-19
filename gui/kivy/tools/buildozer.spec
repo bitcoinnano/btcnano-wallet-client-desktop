@@ -35,10 +35,10 @@ requirements = python3crystax, android, openssl, plyer, kivy
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/gui/kivy/theming/splash.png
-presplash.filename = %(source.dir)s/icons/bitcoinnano_presplash.png
+presplash.filename = %(source.dir)s/gui/kivy/theming/bitcoinnano_presplash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/icons/bitcoinnano_launcher.png
+icon.filename = %(source.dir)s/gui/kivy/theming/lightloge.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait

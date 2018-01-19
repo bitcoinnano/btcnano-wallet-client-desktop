@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author       : Shu
+# @Email        : httpservlet@yeah.net
 # @Date         : 2017/12/27
 # @Description  : 打包python项目为exe
 

@@ -366,6 +366,7 @@ class ReceiveScreen(CScreen):
 
     def do_copy(self):
         uri = self.get_URI()
+        uri = uri.split(":")[1]
         self.app._clipboard.copy(uri)
         self.app.show_info(_('Request copied to clipboard'))
 

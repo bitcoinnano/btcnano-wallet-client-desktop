@@ -12,7 +12,7 @@ from bitcoinnano.bitcoin import TYPE_ADDRESS
 from bitcoinnano import WalletStorage, Wallet
 from bitcoinnano_gui.kivy.i18n import _
 from bitcoinnano.paymentrequest import InvoiceStore
-from bitcoinnano.util import profiler, InvalidPassword
+from bitcoinnano.util import profiler, InvalidPassword, NotEnoughFunds
 from bitcoinnano.plugins import run_hook
 from bitcoinnano.util import format_satoshis, format_satoshis_plain
 from bitcoinnano.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRED
@@ -673,8 +673,13 @@ class ElectrumWindow(App):
         inputs = self.wallet.get_spendable_coins(None, self.electrum_config)
         addr = str(self.send_screen.screen.address) or self.wallet.dummy_address()
         outputs = [(TYPE_ADDRESS, addr, '!')]
-        tx = self.wallet.make_unsigned_transaction(inputs, outputs, self.electrum_config)
-        amount = tx.output_value()
+        try:
+            tx = self.wallet.make_unsigned_transaction(inputs, outputs, self.electrum_config)
+            amount = tx.output_value()
+
+        except NotEnoughFunds as e:
+            self.show_info("You don't have enough fund in your wallet")
+            amount = 0
         return format_satoshis_plain(amount, self.decimal_point())
 
     def format_amount(self, x, is_diff=False, whitespaces=False):

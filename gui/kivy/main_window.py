@@ -414,6 +414,7 @@ class ElectrumWindow(App):
             PythonActivity.mActivity.startActivityForResult(intent, 0)
         except:
             self.show_error(_('Could not start Barcode Scanner.') + ' ' + _('Please install the Barcode Scanner app from ZXing'))
+            self.show_info('Please install the Barcode Scanner app from ZXing')
 
     def scan_qr_zxing(self, on_complete):
         # uses zxing embedded lib

@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Bitcoin-Nano
+title = Nano
 
 # (str) Package name
 package.name = BitcoinNano

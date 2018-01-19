@@ -18,7 +18,7 @@ Builder.load_string('''
 
 <SettingsDialog@Popup>
     id: settings
-    title: _('Electrum Settings')
+    title: _('Bitcoin Nano Settings')
     disable_pin: False
     use_encryption: False
     BoxLayout:
@@ -46,13 +46,13 @@ Builder.load_string('''
                 SettingsItem:
                     bu: app.base_unit
                     title: _('Denomination') + ': ' + self.bu
-                    description: _("Base unit for Bitcoin amounts.")
+                    description: _("Base unit for Bitcoin Nano amounts.")
                     action: partial(root.unit_dialog, self)
                 CardSeparator
                 SettingsItem:
                     status: root.fee_status()
                     title: _('Fees') + ': ' + self.status
-                    description: _("Fees paid to the Bitcoin miners.")
+                    description: _("Fees paid to the Bitcoin Nano miners.")
                     action: partial(root.fee_dialog, self)
                 CardSeparator
                 SettingsItem:

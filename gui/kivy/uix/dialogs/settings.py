@@ -45,9 +45,14 @@ Builder.load_string('''
                     message: _('Send excess coins to change addresses')
                     action: partial(root.boolean_dialog, 'use_change', _('Use change addresses'), self.message)
                 CardSeparator
-                SettingsItem:
-                    title: _('Version')
-                    description: VERSION
+                TopLabel:
+                    text:_(' ')
+                TopLabel:
+                    text: _('Version')
+                TopLabel
+                    text: VERSION
+                TopLabel:
+                    text:_(' ')
                 TopLabel:
                     text: _('Homepage')
                     size_hint_x: 0.4

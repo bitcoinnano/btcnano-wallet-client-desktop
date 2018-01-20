@@ -39,42 +39,11 @@ Builder.load_string('''
                     action: partial(root.change_password, self)
                 CardSeparator
                 SettingsItem:
-                    status: root.fee_status()
-                    title: _('Fees') + ': ' + self.status
-                    description: _("Fees paid to the Bitcoin Nano miners.")
-                    action: partial(root.fee_dialog, self)
-                CardSeparator
-                SettingsItem:
-                    status: root.fx_status()
-                    title: _('Fiat Currency') + ': ' + self.status
-                    description: _("Display amounts in fiat currency.")
-                    action: partial(root.fx_dialog, self)
-                CardSeparator
-                SettingsItem:
-                    status: 'ON' if bool(app.plugins.get('labels')) else 'OFF'
-                    title: _('Labels Sync') + ': ' + self.status
-                    description: _("Save and synchronize your labels.")
-                    action: partial(root.plugin_dialog, 'labels', self)
-                CardSeparator
-                SettingsItem:
-                    status: _('Yes') if app.use_unconfirmed else _('No')
-                    title: _('Spend unconfirmed') + ': ' + self.status
-                    description: _("Use unconfirmed coins in transactions.")
-                    message: _('Spend unconfirmed coins')
-                    action: partial(root.boolean_dialog, 'use_unconfirmed', _('Use unconfirmed'), self.message)
-                CardSeparator
-                SettingsItem:
                     status: _('Yes') if app.use_change else _('No')
                     title: _('Use change addresses') + ': ' + self.status
                     description: _("Send your change to separate addresses.")
                     message: _('Send excess coins to change addresses')
                     action: partial(root.boolean_dialog, 'use_change', _('Use change addresses'), self.message)
-                CardSeparator
-                SettingsItem:
-                    status: root.coinselect_status()
-                    title: _('Coin selection') + ': ' + self.status
-                    description: "Coin selection method"
-                    action: partial(root.coinselect_dialog, self)
                 CardSeparator
                 SettingsItem:
                     title: _('Version')

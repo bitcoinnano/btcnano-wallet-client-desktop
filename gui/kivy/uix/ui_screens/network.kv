@@ -18,21 +18,6 @@ Popup:
 
                 CardSeparator
                 SettingsItem:
-                    title: _("Server") + ': ' + app.server_host
-                    description: _("Server used to query your history.")
-                    action: lambda x: app.popup_dialog('server')
-
-                CardSeparator
-                SettingsItem:
-                    proxy: app.proxy_config.get('mode')
-                    host: app.proxy_config.get('host')
-                    port: app.proxy_config.get('port')
-                    title: _("Proxy") + ': ' + ((self.host +':' + self.port) if self.proxy else _('None'))
-                    description: _('Proxy configuration')
-                    action: lambda x: app.popup_dialog('proxy')
-
-                CardSeparator
-                SettingsItem:
                     title: _("Auto-connect") + ': ' + ('ON' if app.auto_connect else 'OFF')
                     description: _("Select your server automatically")
                     action: app.toggle_auto_connect

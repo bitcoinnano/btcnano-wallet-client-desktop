@@ -429,6 +429,7 @@ BoxLayout:
                 app_icon: 'atlas://gui/kivy/theming/light/logo'
                 app_icon_width: '100dp'
                 with_previous: False
+                important: True
                 size_hint_x: None
                 on_release: app.popup_dialog('network')
 
@@ -440,11 +441,15 @@ BoxLayout:
                 color: 0.7, 0.7, 0.7, 1
                 text: app.status
                 font_size: '22dp'
-                #minimum_width: '1dp'
+                minimum_width: '22dp'
                 on_release: app.popup_dialog('status')
 
             ActionButton:
-                size_hint: 0.6, 1
+                important: True
+                size_hint: 0.2, 1
+
+                minimum_width: '10dp'
+                font_size: '10dp'
                 name: 'settings'
                 icon: 'atlas://gui/kivy/theming/light/settings'
                 on_release: app.popup_dialog('settings')

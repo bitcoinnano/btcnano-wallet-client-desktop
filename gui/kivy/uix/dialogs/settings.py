@@ -15,6 +15,7 @@ from .choice_dialog import ChoiceDialog
 Builder.load_string('''
 #:import partial functools.partial
 #:import _ bitcoinnano_gui.kivy.i18n._
+#:import VERSION bitcoinnano.version.ELECTRUM_VERSION
 
 <SettingsDialog@Popup>
     id: settings
@@ -31,23 +32,11 @@ Builder.load_string('''
                 height: self.minimum_height
                 padding: '10dp'
                 SettingsItem:
-                    lang: settings.get_language_name()
-                    title: 'Language' + ': ' + str(self.lang)
-                    description: _('Language')
-                    action: partial(root.language_dialog, self)
-                CardSeparator
-                SettingsItem:
                     status: '' if root.disable_pin else ('ON' if root.use_encryption else 'OFF')
                     disabled: root.disable_pin
                     title: _('PIN code') + ': ' + self.status
                     description: _("Change your PIN code.")
                     action: partial(root.change_password, self)
-                CardSeparator
-                SettingsItem:
-                    bu: app.base_unit
-                    title: _('Denomination') + ': ' + self.bu
-                    description: _("Base unit for Bitcoin Nano amounts.")
-                    action: partial(root.unit_dialog, self)
                 CardSeparator
                 SettingsItem:
                     status: root.fee_status()
@@ -86,6 +75,24 @@ Builder.load_string('''
                     title: _('Coin selection') + ': ' + self.status
                     description: "Coin selection method"
                     action: partial(root.coinselect_dialog, self)
+                CardSeparator
+                SettingsItem:
+                    title: _('Version')
+                    description: VERSION
+                TopLabel:
+                    text: _('Homepage')
+                    size_hint_x: 0.4
+                TopLabel:
+                    markup: True
+                    text: '[color=6666ff][ref=x]https://www.btcnano.org[/ref][/color]'
+                    size_hint_x: 0.8
+                    on_ref_press:
+                        import webbrowser
+                        webbrowser.open("https://www.btcnano.org")
+                TopLabel:
+                    text: _(' ')
+                CardSeparator
+
 ''')
 
 

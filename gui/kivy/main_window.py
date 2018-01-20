@@ -30,17 +30,17 @@ from kivy.metrics import inch
 from kivy.lang import Builder
 
 ## lazy imports for factory so that widgets can be used in kv
-#Factory.register('InstallWizard', module='electrum_gui.kivy.uix.dialogs.installwizard')
-#Factory.register('InfoBubble', module='electrum_gui.kivy.uix.dialogs')
-#Factory.register('OutputList', module='electrum_gui.kivy.uix.dialogs')
-#Factory.register('OutputItem', module='electrum_gui.kivy.uix.dialogs')
+# Factory.register('InstallWizard', module='electrum_gui.kivy.uix.dialogs.installwizard')
+# Factory.register('InfoBubble', module='electrum_gui.kivy.uix.dialogs')
+# Factory.register('OutputList', module='electrum_gui.kivy.uix.dialogs')
+# Factory.register('OutputItem', module='electrum_gui.kivy.uix.dialogs')
 
 from .uix.dialogs.installwizard import InstallWizard
 from .uix.dialogs import InfoBubble
 from .uix.dialogs import OutputList, OutputItem
 
-#from kivy.core.window import Window
-#Window.softinput_mode = 'below_target'
+# from kivy.core.window import Window
+# Window.softinput_mode = 'below_target'
 
 # delayed imports: for startup speed on android
 notification = app = ref = None
@@ -60,18 +60,17 @@ Factory.register('TabbedCarousel', module='bitcoinnano_gui.kivy.uix.screens')
 # Register fonts without this you won't be able to use bold/italic...
 # inside markup.
 from kivy.core.text import Label
+
 Label.register('Roboto',
                'gui/kivy/data/fonts/Roboto.ttf',
                'gui/kivy/data/fonts/Roboto.ttf',
                'gui/kivy/data/fonts/Roboto-Bold.ttf',
                'gui/kivy/data/fonts/Roboto-Bold.ttf')
 
-
 from bitcoinnano.util import base_units
 
 
 class ElectrumWindow(App):
-
     electrum_config = ObjectProperty(None)
     language = StringProperty('en')
 
@@ -85,41 +84,49 @@ class ElectrumWindow(App):
     blockchain_checkpoint = NumericProperty(0)
 
     auto_connect = BooleanProperty(False)
+
     def on_auto_connect(self, instance, x):
         host, port, protocol, proxy, auto_connect = self.network.get_parameters()
         self.network.set_parameters(host, port, protocol, proxy, self.auto_connect)
+
     def toggle_auto_connect(self, x):
         self.auto_connect = not self.auto_connect
 
     def choose_server_dialog(self, popup):
         from .uix.dialogs.choice_dialog import ChoiceDialog
         protocol = 's'
+
         def cb2(host):
             from bitcoinnano.bitcoin import NetworkConstants
             pp = servers.get(host, NetworkConstants.DEFAULT_PORTS)
             port = pp.get(protocol, '')
             popup.ids.host.text = host
             popup.ids.port.text = port
+
         servers = self.network.get_servers()
         ChoiceDialog(_('Choose a server'), sorted(servers), popup.ids.host.text, cb2).open()
 
     def choose_blockchain_dialog(self, dt):
         from .uix.dialogs.choice_dialog import ChoiceDialog
         chains = self.network.get_blockchains()
+
         def cb(name):
             for index, b in self.network.blockchains.items():
                 if name == self.network.get_blockchain_name(b):
                     self.network.follow_chain(index)
-                    #self.block
+                    # self.block
+
         names = [self.network.blockchains[b].get_name() for b in chains]
-        if len(names) >1:
+        if len(names) > 1:
             ChoiceDialog(_('Choose your chain'), names, '', cb).open()
 
     use_change = BooleanProperty(False)
+
     def on_use_change(self, instance, x):
         self.electrum_config.set_key('use_change', self.use_change, True)
 
     use_unconfirmed = BooleanProperty(False)
+
     def on_use_unconfirmed(self, instance, x):
         self.electrum_config.set_key('confirmed_only', not self.use_unconfirmed, True)
 
@@ -183,7 +190,7 @@ class ElectrumWindow(App):
         rate = self.fx.exchange_rate()
         if not rate:
             return ''
-        satoshis = int(pow(10,8) * Decimal(fiat_amount) / Decimal(rate))
+        satoshis = int(pow(10, 8) * Decimal(fiat_amount) / Decimal(rate))
         return format_satoshis_plain(satoshis, self.decimal_point())
 
     def get_amount(self, amount_str):
@@ -196,9 +203,8 @@ class ElectrumWindow(App):
         p = pow(10, self.decimal_point())
         return int(p * x)
 
-
     _orientation = OptionProperty('landscape',
-                                 options=('landscape', 'portrait'))
+                                  options=('landscape', 'portrait'))
 
     def _get_orientation(self):
         return self._orientation
@@ -235,7 +241,7 @@ class ElectrumWindow(App):
         self.is_exit = False
         self.wallet = None
 
-        App.__init__(self)#, **kwargs)
+        App.__init__(self)  # , **kwargs)
 
         title = _('Electrum App')
         self.electrum_config = config = kwargs.get('config', None)
@@ -401,19 +407,22 @@ class ElectrumWindow(App):
         Intent = autoclass('android.content.Intent')
         intent = Intent("com.google.zxing.client.android.SCAN")
         intent.putExtra("SCAN_MODE", "QR_CODE_MODE")
+
         def on_qr_result(requestCode, resultCode, intent):
             if requestCode == 0:
-                if resultCode == -1: # RESULT_OK:
+                if resultCode == -1:  # RESULT_OK:
                     contents = intent.getStringExtra("SCAN_RESULT")
                     if intent.getStringExtra("SCAN_RESULT_FORMAT") == 'QR_CODE':
                         on_complete(contents)
                     else:
                         self.show_error("wrong format " + intent.getStringExtra("SCAN_RESULT_FORMAT"))
+
         activity.bind(on_activity_result=on_qr_result)
         try:
             PythonActivity.mActivity.startActivityForResult(intent, 0)
         except:
-            self.show_error(_('Could not start Barcode Scanner.') + ' ' + _('Please install the Barcode Scanner app from ZXing'))
+            self.show_error(
+                _('Could not start Barcode Scanner.') + ' ' + _('Please install the Barcode Scanner app from ZXing'))
             self.show_info('Please install the Barcode Scanner app from ZXing')
 
     def scan_qr_zxing(self, on_complete):
@@ -425,14 +434,16 @@ class ElectrumWindow(App):
         PythonActivity = autoclass('org.kivy.android.PythonActivity')
         IntentIntegrator = autoclass('com.google.zxing.integration.android.IntentIntegrator')
         integrator = IntentIntegrator(PythonActivity.mActivity)
+
         def on_qr_result(requestCode, resultCode, intent):
             if requestCode == 0:
-                if resultCode == -1: # RESULT_OK:
+                if resultCode == -1:  # RESULT_OK:
                     contents = intent.getStringExtra("SCAN_RESULT")
                     if intent.getStringExtra("SCAN_RESULT_FORMAT") == 'QR_CODE':
                         on_complete(contents)
                     else:
                         self.show_error("wrong format " + intent.getStringExtra("SCAN_RESULT_FORMAT"))
+
         activity.bind(on_activity_result=on_qr_result)
         integrator.initiateScan()
 
@@ -470,7 +481,7 @@ class ElectrumWindow(App):
         win = Window
         win.bind(size=self.on_size, on_keyboard=self.on_keyboard)
         win.bind(on_key_down=self.on_key_down)
-        #win.softinput_mode = 'below_target'
+        # win.softinput_mode = 'below_target'
         self.on_size(win, win.size)
         self.init_ui()
         self.load_wallet_by_name(self.electrum_config.get_wallet_path())
@@ -479,7 +490,7 @@ class ElectrumWindow(App):
         # fiat currency
         self.fiat_unit = self.fx.ccy if self.fx.is_enabled() else ''
         # default tab
-        self.switch_to('history')
+        self.switch_to('receive')
         # bind intent for bitcoin: URI scheme
         if platform == 'android':
             from android import activity
@@ -498,7 +509,6 @@ class ElectrumWindow(App):
         uri = self.electrum_config.get('url')
         if uri:
             self.set_URI(uri)
-
 
     def get_wallet_path(self):
         if self.wallet:
@@ -549,13 +559,13 @@ class ElectrumWindow(App):
                 self.update_wallet()
             elif keycode == 112:
                 # pageup
-                #TODO move to next tab
+                # TODO move to next tab
                 pass
             elif keycode == 117:
                 # pagedown
-                #TODO move to prev tab
+                # TODO move to prev tab
                 pass
-        #TODO: alt+tab_number to activate the particular tab
+        # TODO: alt+tab_number to activate the particular tab
 
     def on_keyboard(self, instance, key, keycode, codepoint, modifiers):
         if key == 27 and self.is_exit is False:
@@ -563,8 +573,8 @@ class ElectrumWindow(App):
             self.show_info(_('Press again to exit'))
             return True
         # override settings button
-        if key in (319, 282): #f1/settings button on android
-            #self.gui.main_gui.toggle_settings(self)
+        if key in (319, 282):  # f1/settings button on android
+            # self.gui.main_gui.toggle_settings(self)
             return True
 
     def settings_dialog(self):
@@ -582,7 +592,7 @@ class ElectrumWindow(App):
             d = WalletDialog()
             d.open()
         else:
-            popup = Builder.load_file('gui/kivy/uix/ui_screens/'+name+'.kv')
+            popup = Builder.load_file('gui/kivy/uix/ui_screens/' + name + '.kv')
             popup.open()
 
     @profiler
@@ -590,21 +600,21 @@ class ElectrumWindow(App):
         ''' Initialize The Ux part of electrum. This function performs the basic
         tasks of setting up the ui.
         '''
-        #from weakref import ref
+        # from weakref import ref
 
         self.funds_error = False
         # setup UX
         self.screens = {}
 
-        #setup lazy imports for mainscreen
+        # setup lazy imports for mainscreen
         Factory.register('AnimatedPopup',
                          module='bitcoinnano_gui.kivy.uix.dialogs')
         Factory.register('QRCodeWidget',
                          module='bitcoinnano_gui.kivy.uix.qrcodewidget')
 
         # preload widgets. Remove this if you want to load the widgets on demand
-        #Cache.append('electrum_widgets', 'AnimatedPopup', Factory.AnimatedPopup())
-        #Cache.append('electrum_widgets', 'QRCodeWidget', Factory.QRCodeWidget())
+        # Cache.append('electrum_widgets', 'AnimatedPopup', Factory.AnimatedPopup())
+        # Cache.append('electrum_widgets', 'QRCodeWidget', Factory.QRCodeWidget())
 
         # load and focus the ui
         self.root.manager = self.root.ids['manager']
@@ -629,7 +639,7 @@ class ElectrumWindow(App):
             self.server_host = self.network.interface.host
 
     def on_network_event(self, event, *args):
-        Logger.info('network event: '+ event)
+        Logger.info('network event: ' + event)
         if event == 'interfaces':
             self._trigger_update_interfaces()
         elif event == 'updated':
@@ -666,17 +676,18 @@ class ElectrumWindow(App):
             if not self.wallet.up_to_date or server_height == 0:
                 status = _("Synchronizing...")
             elif server_lag > 1:
-                status = _("Server lagging (%d blocks)"%server_lag)
+                status = _("Server lagging (%d blocks)" % server_lag)
             else:
                 c, u, x = self.wallet.get_balance()
-                text = self.format_amount(c+x+u)
-                status = str(text.strip()[:-1] + ' ' + self.base_unit)
+                text = self.format_amount(c + x + u)
+                text_1 = text.strip()[:-1] if text.endswith(".") else text.strip()
+                status = str(text_1 + ' ' + self.base_unit)
         else:
             status = _("Disconnected")
 
         n = self.wallet.basename()
-        self.status = '[size=15dp]Balance: %s[/size]' %(status)
-        #fiat_balance = self.fx.format_amount_and_units(c+u+x) or ''
+        self.status = '[size=15dp]Balance: %s[/size]' % (status)
+        # fiat_balance = self.fx.format_amount_and_units(c+u+x) or ''
 
     def get_max_amount(self):
         inputs = self.wallet.get_spendable_coins(None, self.electrum_config)
@@ -697,7 +708,7 @@ class ElectrumWindow(App):
     def format_amount_and_units(self, x):
         return format_satoshis_plain(x, self.decimal_point()) + ' ' + self.base_unit
 
-    #@profiler
+    # @profiler
     def update_wallet(self, *dt):
         self._trigger_update_status()
         if self.wallet and (self.wallet.up_to_date or not self.network or not self.network.is_connected()):
@@ -711,7 +722,7 @@ class ElectrumWindow(App):
             icon = (os.path.dirname(os.path.realpath(__file__))
                     + '/../../' + self.icon)
             notification.notify('Electrum', message,
-                            app_icon=icon, app_name='Electrum')
+                                app_icon=icon, app_name='Electrum')
         except ImportError:
             Logger.Error('Notification: needs plyer; `sudo pip install plyer`')
 
@@ -726,7 +737,7 @@ class ElectrumWindow(App):
             self.nfcscanner.nfc_enable()
         # workaround p4a bug:
         # show an empty info bubble, to refresh the display
-        self.show_info_bubble('', duration=0.1, pos=(0,0), width=1, arrow_pos=None)
+        self.show_info_bubble('', duration=0.1, pos=(0, 0), width=1, arrow_pos=None)
 
     def on_size(self, instance, value):
         width, height = value
@@ -740,30 +751,31 @@ class ElectrumWindow(App):
         else:
             label.touched = True
             self._clipboard.copy(label.data)
-            Clock.schedule_once(lambda dt: self.show_info(_('Text copied to clipboard.\nTap again to display it as QR code.')))
+            Clock.schedule_once(
+                lambda dt: self.show_info(_('Text copied to clipboard.\nTap again to display it as QR code.')))
 
     def set_send(self, address, amount, label, message):
         self.send_payment(address, amount=amount, label=label, message=message)
 
     def show_error(self, error, width='200dp', pos=None, arrow_pos=None,
-        exit=False, icon='atlas://gui/kivy/theming/light/error', duration=0,
-        modal=False):
+                   exit=False, icon='atlas://gui/kivy/theming/light/error', duration=0,
+                   modal=False):
         ''' Show a error Message Bubble.
         '''
-        self.show_info_bubble( text=error, icon=icon, width=width,
-            pos=pos or Window.center, arrow_pos=arrow_pos, exit=exit,
-            duration=duration, modal=modal)
+        self.show_info_bubble(text=error, icon=icon, width=width,
+                              pos=pos or Window.center, arrow_pos=arrow_pos, exit=exit,
+                              duration=duration, modal=modal)
 
     def show_info(self, error, width='200dp', pos=None, arrow_pos=None,
-        exit=False, duration=0, modal=False):
+                  exit=False, duration=0, modal=False):
         ''' Show a Info Message Bubble.
         '''
         self.show_error(error, icon='atlas://gui/kivy/theming/light/important',
-            duration=duration, modal=modal, exit=exit, pos=pos,
-            arrow_pos=arrow_pos)
+                        duration=duration, modal=modal, exit=exit, pos=pos,
+                        arrow_pos=arrow_pos)
 
     def show_info_bubble(self, text=_('Hello World'), pos=None, duration=0,
-        arrow_pos='bottom_mid', width=None, icon='', modal=False, exit=False):
+                         arrow_pos='bottom_mid', width=None, icon='', modal=False, exit=False):
         '''Method to show a Information Bubble
 
         .. parameters::
@@ -780,8 +792,8 @@ class ElectrumWindow(App):
         win = Window
         if info_bubble.parent:
             win.remove_widget(info_bubble
-                                 if not info_bubble.modal else
-                                 info_bubble._modal_view)
+                              if not info_bubble.modal else
+                              info_bubble._modal_view)
 
         if not arrow_pos:
             info_bubble.show_arrow = False
@@ -802,14 +814,14 @@ class ElectrumWindow(App):
         else:
             info_bubble.fs = False
             info_bubble.icon = icon
-            #if img.texture and img._coreimage:
+            # if img.texture and img._coreimage:
             #    img.reload()
             img.allow_stretch = False
             info_bubble.dim_background = False
             info_bubble.background_image = 'atlas://data/images/defaulttheme/bubble'
         info_bubble.message = text
         if not pos:
-            pos = (win.center[0], win.center[1] - (info_bubble.height/2))
+            pos = (win.center[0], win.center[1] - (info_bubble.height / 2))
         info_bubble.show(pos, duration, width, modal=modal, exit=exit)
 
     def tx_dialog(self, tx):
@@ -854,8 +866,10 @@ class ElectrumWindow(App):
     def description_dialog(self, screen):
         from .uix.dialogs.label_dialog import LabelDialog
         text = screen.message
+
         def callback(text):
             screen.message = text
+
         d = LabelDialog(_('Enter description'), text, callback)
         d.open()
 
@@ -866,8 +880,10 @@ class ElectrumWindow(App):
         if amount:
             amount, u = str(amount).split()
             assert u == self.base_unit
+
         def cb(amount):
             screen.amount = amount
+
         popup = AmountDialog(show_max, amount, cb)
         popup.open()
 
@@ -954,6 +970,7 @@ class ElectrumWindow(App):
         from .uix.dialogs.password_dialog import PasswordDialog
         def callback(pw):
             Clock.schedule_once(lambda x: f(*(args + (pw,))), 0.1)
+
         if self._password_dialog is None:
             self._password_dialog = PasswordDialog()
         self._password_dialog.init(msg, callback)
@@ -965,4 +982,6 @@ class ElectrumWindow(App):
                 return
             key = str(self.wallet.export_private_key(addr, password)[0])
             pk_label.data = key
-        self.protected(_("Enter your PIN code in order to decrypt your private key"), show_private_key, (addr, pk_label))
+
+        self.protected(_("Enter your PIN code in order to decrypt your private key"), show_private_key,
+                       (addr, pk_label))

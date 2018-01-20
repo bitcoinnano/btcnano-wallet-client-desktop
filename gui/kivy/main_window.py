@@ -385,7 +385,6 @@ class ElectrumWindow(App):
         popup.open()
 
     def scan_qr(self, on_complete):
-        self.show_info('init scan_qr...')
         flag = True
         try:
             if platform != 'android':
@@ -415,30 +414,27 @@ class ElectrumWindow(App):
             PythonActivity.mActivity.startActivityForResult(intent, 0)
         except:
             self.show_error(_('Could not start Barcode Scanner.') + ' ' + _('Please install the Barcode Scanner app from ZXing'))
-
+            self.show_info('Please install the Barcode Scanner app from ZXing')
 
     def scan_qr_zxing(self, on_complete):
-        try:
-            # uses zxing embedded lib
-            if platform != 'android':
-                return
-            from jnius import autoclass
-            from android import activity
-            PythonActivity = autoclass('org.kivy.android.PythonActivity')
-            IntentIntegrator = autoclass('com.google.zxing.integration.android.IntentIntegrator')
-            integrator = IntentIntegrator(PythonActivity.mActivity)
-            def on_qr_result(requestCode, resultCode, intent):
-                if requestCode == 0:
-                    if resultCode == -1: # RESULT_OK:
-                        contents = intent.getStringExtra("SCAN_RESULT")
-                        if intent.getStringExtra("SCAN_RESULT_FORMAT") == 'QR_CODE':
-                            on_complete(contents)
-                        else:
-                            self.show_error("wrong format " + intent.getStringExtra("SCAN_RESULT_FORMAT"))
-            activity.bind(on_activity_result=on_qr_result)
-            integrator.initiateScan()
-        except:
-            self.show_info('Please install the Barcode Scanner app from ZXing')
+        # uses zxing embedded lib
+        if platform != 'android':
+            return
+        from jnius import autoclass
+        from android import activity
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        IntentIntegrator = autoclass('com.google.zxing.integration.android.IntentIntegrator')
+        integrator = IntentIntegrator(PythonActivity.mActivity)
+        def on_qr_result(requestCode, resultCode, intent):
+            if requestCode == 0:
+                if resultCode == -1: # RESULT_OK:
+                    contents = intent.getStringExtra("SCAN_RESULT")
+                    if intent.getStringExtra("SCAN_RESULT_FORMAT") == 'QR_CODE':
+                        on_complete(contents)
+                    else:
+                        self.show_error("wrong format " + intent.getStringExtra("SCAN_RESULT_FORMAT"))
+        activity.bind(on_activity_result=on_qr_result)
+        integrator.initiateScan()
 
     def do_share(self, data, title):
         if platform != 'android':
@@ -674,12 +670,12 @@ class ElectrumWindow(App):
             else:
                 c, u, x = self.wallet.get_balance()
                 text = self.format_amount(c+x+u)
-                status = str(text.strip() + ' ' + self.base_unit)
+                status = str(text.strip()[:-1] + ' ' + self.base_unit)
         else:
             status = _("Disconnected")
 
         n = self.wallet.basename()
-        self.status = '[size=15dp]%s[/size]\n%s' %(n, status)
+        self.status = '[size=15dp]Balance: %s[/size]' %(status)
         #fiat_balance = self.fx.format_amount_and_units(c+u+x) or ''
 
     def get_max_amount(self):

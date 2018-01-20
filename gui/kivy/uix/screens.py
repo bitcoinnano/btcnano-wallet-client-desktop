@@ -144,7 +144,8 @@ class HistoryScreen(CScreen):
         ri.date = status_str
         ri.message = label
         ri.value = value or 0
-        ri.amount = self.app.format_amount(value, True) if value is not None else '--'
+        amount = self.app.format_amount(value, True) if value is not None else '--'
+        ri.amount = amount[:-1] if amount.endswith(".") else amount
         ri.confirmations = conf
         if self.app.fiat_unit and date:
             rate = self.app.fx.history_rate(date)

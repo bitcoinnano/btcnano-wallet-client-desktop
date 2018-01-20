@@ -528,7 +528,7 @@ def create_URI(addr, amount, message):
         query.append('amount=%s'%format_satoshis_plain(amount))
     if message:
         query.append('message=%s'%urllib.parse.quote(message))
-    p = urllib.parse.ParseResult(scheme='bitcoincash', netloc='', path=addr, params='', query='&'.join(query), fragment='')
+    p = urllib.parse.ParseResult(scheme='bitcoinnano', netloc='', path=addr, params='', query='&'.join(query), fragment='')
     return urllib.parse.urlunparse(p)
 
 

@@ -34,6 +34,15 @@ SendScreen:
                     text: s.address if s.address else _('Recipient')
                     shorten: True
                     on_release: Clock.schedule_once(lambda dt: app.show_info(_('Copy and paste the recipient address using the Paste button, or use the camera to scan a QR code.')))
+                IconButton:
+                    id: qr
+                    size_hint: None, None
+                    background_color: 0, 0, 0, 0
+                    size: '22dp', '22dp'
+                    opacity: 0.7
+                    pos_hint: {'center_y': .5}
+                    on_release: Clock.schedule_once(lambda dt: app.scan_qr(on_complete=app.on_qr))
+                    icon: 'atlas://gui/kivy/theming/light/camera'
             CardSeparator:
                 opacity: int(not root.is_pr)
                 color: blue_bottom.foreground_color
@@ -74,11 +83,6 @@ SendScreen:
         BoxLayout:
             size_hint: 1, None
             height: '48dp'
-            IconButton:
-                id: qr
-                size_hint: 0.6, 1
-                on_release: Clock.schedule_once(lambda dt: app.scan_qr(on_complete=app.on_qr))
-                icon: 'atlas://gui/kivy/theming/light/camera'
             Button:
                 text: _('Paste')
                 on_release: s.parent.do_paste()

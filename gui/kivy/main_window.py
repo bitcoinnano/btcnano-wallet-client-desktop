@@ -884,7 +884,7 @@ class ElectrumWindow(App):
         def cb(amount):
             screen.amount = amount
 
-        popup = AmountDialog(show_max, amount, cb)
+        popup = AmountDialog(_('Enter Amount'), amount, cb, show_max)
         popup.open()
 
     def protected(self, msg, f, args):

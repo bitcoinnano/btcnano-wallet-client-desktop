@@ -50,8 +50,8 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 is_bundle = getattr(sys, 'frozen', False)
 is_local = not is_bundle and os.path.exists(os.path.join(script_dir, "bitcoinnano.desktop"))
 is_android = 'ANDROID_DATA' in os.environ
-is_local=False
-is_android=True
+# is_local = False
+# is_android = True
 # move this back to gui/kivy/__init.py once plugins are moved
 os.environ['KIVY_DATA_DIR'] = os.path.abspath(os.path.dirname(__file__)) + '/gui/kivy/data/'
 

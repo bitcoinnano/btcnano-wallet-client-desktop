@@ -110,7 +110,7 @@ from decimal import Decimal
 #
 # class AmountDialog(Factory.Popup):
 #     show_max = BooleanProperty(False)
-#     def __init__(self, show_max, amount, cb):
+#     def __init__(self, tag, amount, cb,show_max):
 #         Factory.Popup.__init__(self)
 #         self.show_max = show_max
 #         self.callback = cb
@@ -140,7 +140,7 @@ from decimal import Decimal
 #         else:
 #             kb.amount = amount
 
-
+##################################################################################################################
 Builder.load_string('''
 <AmountDialog@Popup>
     id: popup
@@ -194,7 +194,7 @@ Builder.load_string('''
                 size_hint: 0.5, None
                 height: '48dp'
                 on_release:
-                    root.callback(input.text)
+                    root.callback(input.text + ' ' + app.base_unit)
                     popup.dismiss()
 ''')
 

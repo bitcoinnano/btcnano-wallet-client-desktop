@@ -858,7 +858,7 @@ msgstr "如果您选中此框，您的交易将被标记为非最终"
 
 #: gui/kivy/uix/dialogs/installwizard.py:528
 msgid "If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds."
-msgstr "如果您忘记了密码或丢失了设备，那么您的种子短语将是恢复您的资金的唯一方法"
+msgstr "如果您忘记了密码或丢失了设备，那么您的种子密语将是恢复您的资金的唯一方法"
 
 #: gui/qt/installwizard.py:370
 msgid "If you lose your seed, your money will be permanently lost."
@@ -995,7 +995,7 @@ msgstr "查询交易记录"
 
 #: gui/qt/main_window.py:376
 msgid "Make sure you own the seed phrase or the private keys, before you request Bitcoins to be sent to this wallet."
-msgstr "请确保您拥有种子短语或私钥，然后再请求将比特币发送到此钱包"
+msgstr "请确保您拥有种子密语或私钥，然后再请求将比特币发送到此钱包"
 
 #: gui/qt/installwizard.py:481 gui/kivy/uix/dialogs/installwizard.py:689
 #: gui/kivy/uix/dialogs/installwizard.py:693
@@ -1285,11 +1285,11 @@ msgstr "请输入您的种子派生密码。注意：这不是你的加密密码
 
 #: gui/qt/installwizard.py:361
 msgid "Please enter your seed phrase in order to restore your wallet."
-msgstr "为了恢复您的钱包请输入您的种子短语"
+msgstr "为了恢复您的钱包请输入您的种子密语"
 
 #: gui/kivy/main_window.py:389
-msgid "Please install the Barcode Scanner app from ZXing"
-msgstr "请安装ZXing的条码扫描器应用程序"
+msgid "Please install the Barcode Scanner app"
+msgstr "请安装 Barcode Scanner应用程序"
 
 #: gui/kivy/uix/dialogs/installwizard.py:790
 msgid "Please paste your cosigners master public key, or scan it using the camera button."
@@ -1305,7 +1305,7 @@ msgstr "请重启 Electrum 以激活用户界面设置"
 
 #: gui/kivy/uix/dialogs/installwizard.py:778
 msgid "Please retype your seed phrase, to confirm that you properly saved it"
-msgstr "请重新输入您的种子短语，以确认您已妥善保存“"
+msgstr "请重新输入您的种子密语，以确认您已妥善保存“"
 
 #: gui/qt/seed_dialog.py:37
 #, python-format
@@ -1318,7 +1318,7 @@ msgstr "请与你的搭档分享"
 
 #: gui/kivy/uix/dialogs/installwizard.py:563
 msgid "Please type your seed phrase using the virtual keyboard."
-msgstr "请使用虚拟键盘输入您的种子短语。"
+msgstr "请使用虚拟键盘输入您的种子密语。"
 
 #: gui/qt/util.py:230
 msgid "Please wait"
@@ -2167,10 +2167,10 @@ msgid "Create keystore from a master key"
 msgstr "从主密钥创建密钥库"
 
 msgid "To create a watching-only wallet, please enter your master public key (xpub/ypub/zpub)."
-msgstr "要创建一个只看钱包，请输入您的主公钥(xpub / ypub / zpub)"
+msgstr "要创建一个只看钱包，请输入您的主公钥(xpub/ypub/zpub)"
 
 msgid "To create a spending wallet, please enter a master private key (xprv/yprv/zprv)."
-msgstr "要创建消费钱包，请输入主密钥(xprv / yprv / zprv)"
+msgstr "要创建消费钱包，请输入主密钥(xprv/yprv/zprv)"
 
 msgid "Wallet Information"
 msgstr "钱包信息"
@@ -2384,10 +2384,112 @@ msgid "Show seed"
 msgstr "显示种子"
 
 msgid "ENTER YOUR SEED PHRASE"
-msgstr "输入你的种子单词"
+msgstr "输入你的种子密语"
 
 msgid "PLEASE WRITE DOWN YOUR SEED PHRASE"
-msgstr "请在纸上记下你的种子单词"
+msgstr "请在纸上记下你的种子密语"
 
 msgid "Hide seed"
 msgstr "隐藏种子"
+
+
+msgid "MASTER PUBLIC KEY"
+msgstr "主公钥"
+
+msgid "If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds."
+msgstr "如果你忘记了你的PIN或丢失了设备，你的种子密语将是唯一途径用于找回你的资金"
+
+msgid "Copy and paste the recipient address using the Paste button, or use the camera to scan a QR code."
+msgstr "复制并使用粘贴按钮粘贴接收地址，或使用相机扫描二维码"
+
+msgid "Not a Bitcoin Nano URI"
+msgstr "不是Bitcoin Nano URI"
+
+msgid "Clipboard is empty"
+msgstr "剪贴板没有内容"
+
+msgid "Request copied to clipboard"
+msgstr "复制到剪贴板"
+
+msgid "Please use the existing requests first."
+msgstr "请先使用已存在的地址"
+
+msgid "New request added to your list."
+msgstr "新地址已经添加到您的列表"
+
+msgid "Address copied to clipboard"
+msgstr "地址已复制到剪贴板"
+
+
+msgid "Could not start Barcode Scanner."
+msgstr "不能启动Barcode Scanner"
+
+
+msgid "You don't have enough fund in your wallet"
+msgstr "你的钱包中没有足够金额"
+
+msgid "Text copied to clipboard.\nTap again to display it as QR code."
+msgstr "文本已复制到剪贴板\n再次Tap将其显示为QR码"
+
+
+msgid "Payment sent."
+msgstr "正在支付"
+
+msgid "Sending"
+msgstr "发送中"
+
+msgid "Cannot broadcast transaction"
+msgstr "不能广播事务"
+
+msgid 'Not connected'
+msgstr "不能连接"
+
+msgid "PIN numbers do not match"
+msgstr "PIN不匹配"
+
+msgid "Invalid PIN"
+msgstr "无效的PIN"
+
+msgid "wrong format "
+msgstr "格式错误"
+
+msgid "Unable to decode QR data"
+msgstr "不能识别的二维码"
+
+msgid "Payment request has expired"
+msgstr "付款请求已过期"
+
+msgid "Invalid amount"
+msgstr "无效的金额"
+
+msgid "Invalid Bitcoin Nano Address"
+msgstr '错误的Bitcoin Nano地址'
+
+msgid "Recipient not specified."
+msgstr "没有指定收款人"
+
+msgid "Please scan a Bitcoin Nano address or a payment request"
+msgstr "请扫描一个比特币Nano地址或支付请求"
+
+msgid "You may extend your seed with custom words"
+msgstr "你可以用自定义的词来扩展你的种子"
+
+msgid "Extend Seed"
+msgstr "扩展种子"
+
+msgid "Contact us"
+msgstr "联系我们"
+
+msgid "Unused"
+msgstr "未使用"
+
+msgid "Used"
+msgstr "已使用"
+
+msgid "Funded"
+msgstr "捐助"
+
+msgid "No address matching your search"
+msgstr "没有符合的地址"
+
+

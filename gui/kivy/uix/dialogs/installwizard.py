@@ -231,7 +231,7 @@ Builder.load_string('''
     message: ''
     word: ''
     BigLabel:
-        text: "ENTER YOUR SEED PHRASE"
+        text: _("ENTER YOUR SEED PHRASE")
     GridLayout
         cols: 1
         padding: 0, '12dp'
@@ -372,7 +372,7 @@ Builder.load_string('''
     xpub: ''
     message: _('Here is your master public key. Share it with your cosigners.')
     BigLabel:
-        text: "MASTER PUBLIC KEY"
+        text: _("MASTER PUBLIC KEY")
     GridLayout
         cols: 1
         padding: 0, '12dp'
@@ -405,7 +405,7 @@ Builder.load_string('''
     spacing: '12dp'
     value: 'next'
     BigLabel:
-        text: "PLEASE WRITE DOWN YOUR SEED PHRASE"
+        text: _("PLEASE WRITE DOWN YOUR SEED PHRASE")
     GridLayout:
         id: grid
         cols: 1

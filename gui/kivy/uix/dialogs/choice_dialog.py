@@ -39,8 +39,10 @@ Builder.load_string('''
                 height: '48dp'
                 on_release:
                     root.callback(popup.value)
+                    root.refresh()
                     popup.dismiss()
 ''')
+
 
 class ChoiceDialog(Factory.Popup):
 
@@ -48,7 +50,7 @@ class ChoiceDialog(Factory.Popup):
         Factory.Popup.__init__(self)
         print(choices, type(choices))
         if type(choices) is list:
-            choices = dict(map(lambda x: (x,x), choices))
+            choices = dict(map(lambda x: (x, x), choices))
         layout = self.ids.choices
         layout.bind(minimum_height=layout.setter('height'))
         for k, v in sorted(choices.items()):
@@ -59,8 +61,10 @@ class ChoiceDialog(Factory.Popup):
             cb.value = k
             cb.height = '48dp'
             cb.size_hint_x = 1
+
             def f(cb, x):
                 if x: self.value = cb.value
+
             cb.bind(active=f)
             if k == key:
                 cb.active = True
@@ -70,3 +74,10 @@ class ChoiceDialog(Factory.Popup):
         self.callback = callback
         self.title = title
         self.value = key
+        self.app = App.get_running_app()
+
+    def refresh(self):
+        if 'Language' == self.title:
+            app = App.get_running_app()
+            path = app.electrum_config.get_wallet_path()
+            app.load_wallet_by_name(path)

@@ -496,11 +496,6 @@ class WizardDialog(EventsDialog):
         self.run_next(*params)
 
     def language_dialog_first(self):
-        #
-        # # for language change
-        # self._language_dialog_first = None
-        # self.config = self.app.electrum_config
-
         l = self.app.electrum_config.get('language', 'en')
 
         def cb(key):
@@ -508,13 +503,8 @@ class WizardDialog(EventsDialog):
             # item.lang = self.get_language_name()
             self.app.language = key
 
-        language_dialog_first = ChoiceDialog(_('Language'), languages, l, cb)
+        language_dialog_first = ChoiceDialog('Language', languages, l, cb)
         language_dialog_first.open()
-
-    #
-    # def get_language_name(self):
-    #     return languages.get(self.config.get('language', 'en_UK'), '')
-
 
 class WizardMultisigDialog(WizardDialog):
 

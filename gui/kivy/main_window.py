@@ -251,7 +251,6 @@ class ElectrumWindow(App):
         title = _('Electrum App')
         self.electrum_config = config = kwargs.get('config', None)
         self.language = config.get('language', 'zh_CN')
-        _.switch_lang(self.language)
         # 设置字体 Roboto是英文字体，SourceHanSan是中文字体
         self.ttf = "SourceHanSan"
         self.network = network = kwargs.get('network', None)
@@ -543,12 +542,11 @@ class ElectrumWindow(App):
                 self.load_wallet(wallet)
                 self.on_resume()
         else:
-            Logger.info('Bitcoin Nano: Wallet not found. Launching install wizard')
+            Logger.info('Bitcoin Nano: Wallet not found. Launching install wizard,')
             storage = WalletStorage(path)
             wizard = Factory.InstallWizard(self.electrum_config, storage)
             wizard.bind(on_wizard_complete=self.on_wizard_complete)
             action = wizard.storage.get_action()
-            Logger.info('action%s'%action)
             wizard.run(action)
 
     def on_stop(self):

@@ -141,7 +141,7 @@ Builder.load_string('''
         size_hint: 1, None
         text_size: self.width, None
         height: self.texture_size[1]
-        text: _("Choose the number of signatures needed to unlock funds in your wallet")
+        text: _("Choose the number of signatures needed to unlock funds in your wallet:")
     Widget
         size_hint: 1, 1
     GridLayout:

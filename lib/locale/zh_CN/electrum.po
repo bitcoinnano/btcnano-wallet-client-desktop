@@ -802,7 +802,7 @@ msgstr "来自"
 #: gui/qt/installwizard.py:527
 #, python-format
 msgid "From %d cosigners"
-msgstr "来自％d个委托人"
+msgstr "来自%d个委托人"
 
 #: gui/qt/network_dialog.py:65
 msgid "Height"
@@ -1436,7 +1436,7 @@ msgstr "删除"
 #: gui/qt/main_window.py:1635
 #, python-format
 msgid "Remove %s from your list of contacts?"
-msgstr "从联系人列表中删除％s"
+msgstr "从联系人列表中删除%s"
 
 #: gui/qt/main_window.py:1069
 msgid "Replaceable"
@@ -1469,7 +1469,7 @@ msgstr "请求"
 #: gui/qt/installwizard.py:524
 #, python-format
 msgid "Require %d signatures"
-msgstr "需要％d个签名"
+msgstr "需要%d个签名"
 
 #: gui/qt/main_window.py:2814
 msgid "Requires"
@@ -1562,7 +1562,7 @@ msgstr "服务器滞后 (%d 个区块)"
 #: gui/kivy/main_window.py:640
 #, python-format
 msgid "Server lagging (%d blocks)"
-msgstr "服务器滞后（％d块）"
+msgstr "服务器滞后（%d块）"
 
 #: gui/qt/network_dialog.py:217
 msgid "Server peers"
@@ -1687,7 +1687,7 @@ msgstr "这笔交易的费用似乎非常高"
 #, python-format
 msgid "The file '%s' contains an incompletely created wallet.\n"
 "Do you want to complete its creation now?"
-msgstr "文件'％s'包含一个未完整创建的钱包。\ n"
+msgstr "文件'%s'包含一个未完整创建的钱包。\ n"
 "你现在想完成它的创作吗？"
 
 #: gui/qt/installwizard.py:243 gui/qt/installwizard.py:264
@@ -1709,13 +1709,13 @@ msgstr "以下收入无法导入"
 #: gui/qt/installwizard.py:248
 #, python-format
 msgid "The format of your wallet '%s' must be upgraded for Electrum. This change will not be backward compatible"
-msgstr "您的钱包'％s'的格式必须升级为Electrum。此更改不会向后兼容"
+msgstr "您的钱包'%s'的格式必须升级为Electrum。此更改不会向后兼容"
 
 #: gui/qt/installwizard.py:235
 #, python-format
 msgid "The wallet '%s' contains multiple accounts, which are no longer supported in Electrum 2.7.\n\n"
 "Do you want to split your wallet into multiple files?"
-msgstr "钱包'％s'包含多个帐户，在Electrum 2.7中不再支持。\ n \ n"
+msgstr "钱包'%s'包含多个帐户，在Electrum 2.7中不再支持。\ n \ n"
 "你想把你的钱包分成多个文件吗？"
 
 #: gui/qt/network_dialog.py:273
@@ -1921,7 +1921,7 @@ msgstr "警告：你的所有私都钥是隐秘。"
 #: gui/qt/main_window.py:1292
 #, python-format
 msgid "WARNING: the alias \"%s\" could not be validated via an additional security check, DNSSEC, and thus may not be correct."
-msgstr "别名\“％s \”无法通过额外的安全检查DNSSEC进行验证，因此可能不正确。“"
+msgstr "别名\“%s \”无法通过额外的安全检查DNSSEC进行验证，因此可能不正确。“"
 
 #: gui/qt/main_window.py:1162
 msgid "Waiting for fee estimates..."
@@ -2481,7 +2481,7 @@ msgid "Used"
 msgstr "已使用"
 
 msgid "Funded"
-msgstr "存额"
+msgstr "余额"
 
 msgid "No address matching your search"
 msgstr "没有符合的地址"
@@ -2525,4 +2525,13 @@ msgstr "交易费用"
 
 msgid "Enter Amount"
 msgstr "输入金额"
+
+msgid "Request paid"
+msgstr "已支付请求"
+
+msgid "Request pending"
+msgstr "未处理请求"
+
+msgid "Request expired"
+msgstr "过期请求"
 

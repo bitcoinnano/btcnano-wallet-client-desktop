@@ -5,6 +5,8 @@ from kivy.lang import Builder
 from decimal import Decimal
 from kivy.clock import Clock
 
+from gui.kivy.i18n import _
+
 Builder.load_string('''
 
 <PasswordDialog@Popup>
@@ -54,7 +56,7 @@ Builder.load_string('''
             KButton:
                 text: '9'
             KButton:
-                text: 'Clear'
+                text: _('Clear')
             KButton:
                 text: '0'
             KButton:
@@ -89,7 +91,7 @@ class PasswordDialog(Factory.Popup):
         text = kb.password
         if c == '<':
             text = text[:-1]
-        elif c == 'Clear':
+        elif len(c) > 1:
             text = ''
         else:
             text += c

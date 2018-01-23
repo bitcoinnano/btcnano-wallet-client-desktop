@@ -332,7 +332,7 @@ class ElectrumWindow(App):
             self.tx_dialog(tx)
             return
         # show error
-        self.show_error("Unable to decode QR data")
+        self.show_error(_("Unable to decode QR data"))
 
     def update_tab(self, name):
         s = getattr(self, name + '_screen', None)
@@ -409,7 +409,7 @@ class ElectrumWindow(App):
             pass
         finally:
             if flag:
-                self.show_info('Please install the Barcode Scanner app from ZXing')
+                self.show_info(_('Please install the Barcode Scanner app'))
         PythonActivity = autoclass('org.kivy.android.PythonActivity')
         Intent = autoclass('android.content.Intent')
         intent = Intent("com.google.zxing.client.android.SCAN")
@@ -449,7 +449,7 @@ class ElectrumWindow(App):
                     if intent.getStringExtra("SCAN_RESULT_FORMAT") == 'QR_CODE':
                         on_complete(contents)
                     else:
-                        self.show_error("wrong format " + intent.getStringExtra("SCAN_RESULT_FORMAT"))
+                        self.show_error(_("wrong format ") + intent.getStringExtra("SCAN_RESULT_FORMAT"))
 
         activity.bind(on_activity_result=on_qr_result)
         integrator.initiateScan()
@@ -707,7 +707,7 @@ class ElectrumWindow(App):
             amount = tx.output_value()
 
         except NotEnoughFunds as e:
-            self.show_info("You don't have enough fund in your wallet")
+            self.show_info(_("You don't have enough fund in your wallet"))
             amount = 0
         return format_satoshis_plain(amount, self.decimal_point())
 
@@ -921,7 +921,7 @@ class ElectrumWindow(App):
             try:
                 self.wallet.check_password(pw)
             except:
-                self.show_error("Invalid PIN")
+                self.show_error(_("Invalid PIN"))
                 return
         self.stop_wallet()
         os.unlink(wallet_path)
@@ -942,7 +942,7 @@ class ElectrumWindow(App):
             seed = keystore.get_seed(password)
             passphrase = keystore.get_passphrase(password)
         except:
-            self.show_error("Invalid PIN")
+            self.show_error(_("Invalid PIN"))
             return
         label.text = _('Seed') + ':\n' + seed
         if passphrase:
@@ -961,7 +961,7 @@ class ElectrumWindow(App):
             try:
                 self.wallet.check_password(old_password)
             except InvalidPassword:
-                self.show_error("Invalid PIN")
+                self.show_error(_("Invalid PIN"))
                 return
         self.password_dialog(_('Enter new PIN'), self._change_password2, (cb, old_password,))
 
@@ -973,7 +973,7 @@ class ElectrumWindow(App):
             self.wallet.update_password(old_password, new_password)
             cb()
         else:
-            self.show_error("PIN numbers do not match")
+            self.show_error(_("PIN numbers do not match"))
 
     def password_dialog(self, msg, f, args):
         from .uix.dialogs.password_dialog import PasswordDialog

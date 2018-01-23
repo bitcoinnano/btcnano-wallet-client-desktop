@@ -272,7 +272,7 @@ class SendScreen(CScreen):
         try:
             tx = self.app.wallet.make_unsigned_transaction(coins, outputs, config, None)
         except NotEnoughFunds:
-            self.app.show_error(_("Not enough funds"))
+            self.app.show_error(_("You don't have enough fund in your wallet"))
             return
         except Exception as e:
             traceback.print_exc(file=sys.stdout)

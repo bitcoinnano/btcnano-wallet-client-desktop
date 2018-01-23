@@ -54,13 +54,24 @@ Builder.load_string('''
                 TopLabel:
                     text:_(' ')
                 TopLabel:
-                    text: _('Version')
+                    text: _('Version') + ":"
+                    font_name: "gui/kivy/data/fonts/SourceHanSansK-Bold.ttf"
                 TopLabel
                     text: VERSION
                 TopLabel:
                     text:_(' ')
                 TopLabel:
-                    text: _('Homepage')
+                    text: _('Contact us') + ":"
+                    font_name: "gui/kivy/data/fonts/SourceHanSansK-Bold.ttf"
+                    size_hint_x: 0.4
+                TopLabel:
+                    text: 'service@btcnano.org'
+                    size_hint_x: 0.8
+                TopLabel:
+                    text: _(' ')
+                TopLabel:
+                    text: _('Homepage') + ":"
+                    font_name: "gui/kivy/data/fonts/SourceHanSansK-Bold.ttf"
                     size_hint_x: 0.4
                 TopLabel:
                     markup: True

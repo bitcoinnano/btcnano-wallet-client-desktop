@@ -372,7 +372,7 @@ msgstr "选择你的链"
 msgid "Choose..."
 msgstr "选择..."
 
-#: gui/qt/main_window.py:1084
+
 msgid "Clear"
 msgstr "清除"
 
@@ -2127,7 +2127,7 @@ msgstr "选择您的钱包文件"
 msgid "Bitcoin Nano wallet"
 msgstr "Bitcoin Nano 钱包"
 
-msgid "What kind of wallet do you want to create?"
+msgid "What kind of wallet do you want to create ?"
 msgstr "您想要创建什么类型的钱包?"
 
 msgid "Standard wallet"
@@ -2318,3 +2318,76 @@ msgstr "在Linux中，您可能需要为您的udev规则添加新的权限"
 
 msgid "Incorrect password"
 msgstr "密码错误"
+
+
+msgid "Share"
+msgstr "分享"
+
+msgid "Paste"
+msgstr "粘贴"
+
+msgid "Pay"
+msgstr "支付"
+
+msgid "Recipient"
+msgstr "接受人"
+
+msgid "Balance"
+msgstr "余额"
+
+msgid "Addresses"
+msgstr "地址"
+
+msgid "Change"
+msgstr "变更"
+
+msgid "All"
+msgstr "所有"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "Attention : If you want to use QR scanner , please install Barcode Scanner first."
+msgstr "提醒：如果你需要使用二维码扫描，请先安装Barcode Scanner."
+
+
+msgid "Wallet Details"
+msgstr "钱包详情"
+
+msgid "Wallet type"
+msgstr "钱包类型"
+
+msgid "Confirmed"
+msgstr "已确认"
+
+msgid "Unconfirmed"
+msgstr "未确认"
+
+
+msgid "Auto-connect"
+msgstr "自动连接"
+
+
+msgid "PIN code"
+msgstr "PIN 码"
+
+msgid "Auto-connect"
+msgstr "自动连接"
+
+msgid "Homepage"
+msgstr "主页"
+
+msgid "Bitcoin Nano Settings"
+msgstr "设置"
+
+msgid "Show seed"
+msgstr "显示种子"
+
+msgid "ENTER YOUR SEED PHRASE"
+msgstr "输入你的种子单词"
+
+msgid "PLEASE WRITE DOWN YOUR SEED PHRASE"
+msgstr "请在纸上记下你的种子单词"
+
+msgid "Hide seed"
+msgstr "隐藏种子"

@@ -61,11 +61,16 @@ Factory.register('TabbedCarousel', module='bitcoinnano_gui.kivy.uix.screens')
 # inside markup.
 from kivy.core.text import Label
 
-Label.register('Roboto',
-               'gui/kivy/data/fonts/Roboto.ttf',
-               'gui/kivy/data/fonts/Roboto.ttf',
-               'gui/kivy/data/fonts/Roboto-Bold.ttf',
-               'gui/kivy/data/fonts/Roboto-Bold.ttf')
+# Label.register('Roboto',
+#                'gui/kivy/data/fonts/Roboto.ttf',
+#                'gui/kivy/data/fonts/Roboto.ttf',
+#                'gui/kivy/data/fonts/Roboto-Bold.ttf',
+#                'gui/kivy/data/fonts/Roboto-Bold.ttf')
+
+Label.register('SourceHanSan',
+               'gui/kivy/data/fonts/SourceHanSansK-Normal.ttf',
+               'gui/kivy/data/fonts/SourceHanSansK-Bold.ttf',
+               )
 
 from bitcoinnano.util import base_units
 
@@ -245,7 +250,10 @@ class ElectrumWindow(App):
 
         title = _('Electrum App')
         self.electrum_config = config = kwargs.get('config', None)
-        self.language = config.get('language', 'en')
+        self.language = config.get('language', 'zh_CN')
+        _.switch_lang(self.language)
+        # 设置字体 Roboto是英文字体，SourceHanSan是中文字体
+        self.ttf = "SourceHanSan"
         self.network = network = kwargs.get('network', None)
         if self.network:
             self.num_blocks = self.network.get_local_height()
@@ -483,6 +491,7 @@ class ElectrumWindow(App):
         win.bind(on_key_down=self.on_key_down)
         # win.softinput_mode = 'below_target'
         self.on_size(win, win.size)
+        # set_language
         self.init_ui()
         self.load_wallet_by_name(self.electrum_config.get_wallet_path())
         # init plugins
@@ -510,6 +519,7 @@ class ElectrumWindow(App):
         if uri:
             self.set_URI(uri)
 
+
     def get_wallet_path(self):
         if self.wallet:
             return self.wallet.storage.path
@@ -533,11 +543,12 @@ class ElectrumWindow(App):
                 self.load_wallet(wallet)
                 self.on_resume()
         else:
-            Logger.debug('Bitcoin Nano: Wallet not found. Launching install wizard')
+            Logger.info('Bitcoin Nano: Wallet not found. Launching install wizard')
             storage = WalletStorage(path)
             wizard = Factory.InstallWizard(self.electrum_config, storage)
             wizard.bind(on_wizard_complete=self.on_wizard_complete)
             action = wizard.storage.get_action()
+            Logger.info('action%s'%action)
             wizard.run(action)
 
     def on_stop(self):
@@ -686,7 +697,7 @@ class ElectrumWindow(App):
             status = _("Disconnected")
 
         n = self.wallet.basename()
-        self.status = '[size=15dp]Balance: %s[/size]' % (status)
+        self.status = '[size=15dp]%s: %s[/size]' % (_("Balance"), status)
         # fiat_balance = self.fx.format_amount_and_units(c+u+x) or ''
 
     def get_max_amount(self):

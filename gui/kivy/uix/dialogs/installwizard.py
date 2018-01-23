@@ -885,7 +885,7 @@ class InstallWizard(BaseWizard, Widget):
         wallet_kinds = [
             ('standard', _("Standard wallet")),
             ('multisig', _("Multi-signature wallet")),
-            ('imported', _("Import Bitcoin addresses or private keys")),
+            ('imported', _("Import Bitcoin Nano addresses or private keys")),
         ]
         choices = [pair for pair in wallet_kinds if pair[0] in wallet_types]
         self.choice_dialog(title=title, message=message, choices=choices, run_next=self.on_wallet_type)
@@ -916,9 +916,9 @@ class InstallWizard(BaseWizard, Widget):
 
     def import_addresses_or_keys(self):
         v = lambda x: keystore.is_address_list(x) or keystore.is_private_key_list(x)
-        title = _("Import Bitcoin Addresses")
+        title = _("Import Bitcoin Nano Addresses")
         message = _(
-            "Enter a list of Bitcoin addresses (this will create a watching-only wallet), or a list of private keys.")
+            "Enter a list of Bitcoin Nano addresses (this will create a watching-only wallet), or a list of private keys.")
         self.add_xpub_dialog(title=title, message=message, run_next=self.on_import, is_valid=v)
 
     def restore_from_key(self):
@@ -982,7 +982,7 @@ class InstallWizard(BaseWizard, Widget):
         message = '\n'.join([
             _('Enter your wallet derivation here.'),
             _('If you are not sure what this is, leave this field unchanged.'),
-            _("If you want the wallet to use legacy Bitcoin addresses use m/44'/0'/0'"),
+            _("If you want the wallet to use legacy Bitcoin Nano addresses use m/44'/0'/0'"),
             _("If you want the wallet to use Bitcoin Cash addresses use m/44'/145'/0'")
         ])
         self.line_dialog(run_next=f, title=_('Derivation'), message=message, default=default,

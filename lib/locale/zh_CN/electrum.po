@@ -1736,7 +1736,7 @@ msgstr "如果您向他们发送签名的付款请求，则收件人会看到此
 
 #: gui/qt/main_window.py:2100
 msgid "This is a watching-only wallet"
-msgstr "这是只能观看的钱包"
+msgstr "这是仅可查看的钱包"
 
 #: gui/qt/network_dialog.py:287
 msgid "This is the height of your local copy of the blockchain."
@@ -2090,7 +2090,7 @@ msgstr "未认证"
 
 #: gui/qt/main_window.py:363
 msgid "watching only"
-msgstr "只看"
+msgstr "仅可查看"
 
 
 # ================= ======================================
@@ -2136,8 +2136,8 @@ msgstr "普通钱包"
 msgid "Multi-signature wallet"
 msgstr "多重签名钱包"
 
-msgid "Import Bitcoin addresses or private keys"
-msgstr "导入比特币地址或私钥"
+msgid "Import Bitcoin Nano addresses or private keys"
+msgstr "导入Bitcoin Nano地址或私钥"
 
 msgid "Do you want to create a new seed, or to restore a wallet using an existing seed?"
 msgstr "您想要创建新的种子，还是使用现有种子来恢复钱包?"
@@ -2157,17 +2157,17 @@ msgstr "使用一个硬件设备"
 msgid "Create"
 msgstr "创建"
 
-msgid "Enter a list of Bitcoin addresses (this will create a watching-only wallet), or a list of private keys."
-msgstr "输入比特币地址列表（这将创建一个只收钱包）或私钥列表"
+msgid "Enter a list of Bitcoin Nano addresses (this will create a watching-only wallet), or a list of private keys."
+msgstr "请输入您的Bitcoin Nano地址列表（我们将为您创建一个仅可查看的钱包），或者输入您的钱包私钥列表。"
 
-msgid "Import Bitcoin Addresses"
-msgstr "导入比特币地址"
+msgid "Import Bitcoin Nano Addresses"
+msgstr "导入Bitcoin Nano地址"
 
 msgid "Create keystore from a master key"
 msgstr "从主密钥创建密钥库"
 
 msgid "To create a watching-only wallet, please enter your master public key (xpub/ypub/zpub)."
-msgstr "要创建一个只看钱包，请输入您的主公钥(xpub/ypub/zpub)"
+msgstr "要创建一个仅可查看的钱包，请输入您的主公钥(xpub/ypub/zpub)"
 
 msgid "To create a spending wallet, please enter a master private key (xprv/yprv/zprv)."
 msgstr "要创建消费钱包，请输入主密钥(xprv/yprv/zprv)"
@@ -2463,7 +2463,7 @@ msgid "Recipient not specified."
 msgstr "没有指定收款人"
 
 msgid "Please scan a Bitcoin Nano address or a payment request"
-msgstr "请扫描一个比特币Nano地址或支付请求"
+msgstr "请扫描一个Bitcoin Nano地址或支付请求"
 
 msgid "You may extend your seed with custom words"
 msgstr "你可以用自定义的词来扩展你的种子"

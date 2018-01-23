@@ -425,5 +425,5 @@ class BaseWizard(object):
             self.wallet.storage.write()
             self.terminate()
 
-        msg = _("Bitcoin Nano is generating your addresses, please wait.")
+        msg = _("Bitcoin Nano wallet is generating your addresses, please wait.")
         self.waiting_dialog(task, msg)

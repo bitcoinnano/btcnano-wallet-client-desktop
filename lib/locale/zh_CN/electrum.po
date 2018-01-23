@@ -374,7 +374,7 @@ msgstr "选择..."
 
 
 msgid "Clear"
-msgstr "清除"
+msgstr "清空"
 
 #: gui/qt/__init__.py:108 gui/qt/main_window.py:1955
 #: gui/qt/main_window.py:2011 gui/qt/util.py:143
@@ -895,7 +895,7 @@ msgstr "特别是，不要使用由第三方服务提供的“赎回私钥”。
 
 #: gui/qt/main_window.py:2595
 msgid "In some cases, use up to 3 change addresses in order to break up large coin amounts and obfuscate the recipient address."
-msgstr "在某些情况下，最多可以使用3个更改地址来分散大量硬币并混淆收件人地址"
+msgstr "在某些情况下，最多可以使用3个找零地址来分散大量硬币并混淆收件人地址"
 
 #: gui/qt/history_list.py:172
 msgid "Increase fee"
@@ -1852,7 +1852,7 @@ msgstr "使用服务器"
 
 #: gui/qt/main_window.py:2573
 msgid "Use change addresses"
-msgstr "使用变更地址"
+msgstr "使用找零地址"
 
 #: gui/qt/main_window.py:2423
 msgid "Use dynamic fees"
@@ -1864,7 +1864,7 @@ msgstr "使用服务器推荐的费用"
 
 #: gui/qt/main_window.py:2592
 msgid "Use multiple change addresses"
-msgstr "使用多个更改地址"
+msgstr "使用多个找零地址"
 
 #: gui/qt/main_window.py:2493
 msgid "Use setconfig to set ssl_chain and ssl_privkey."
@@ -1888,7 +1888,7 @@ msgstr "使用Icons8图标包（icons8.com）中的图标"
 
 #: gui/qt/main_window.py:2583
 msgid "Using change addresses makes it more difficult for other people to track your transactions."
-msgstr "更改使用地址以防止他人跟踪你的交易。"
+msgstr "使用变化的地址以防止他人跟踪你的交易。"
 
 #: gui/qt/main_window.py:1951
 msgid "Verify"
@@ -1937,7 +1937,7 @@ msgstr "钱包备份已创建"
 
 #: gui/qt/transaction_dialog.py:229
 msgid "Wallet change address"
-msgstr "钱包更改地址"
+msgstr "钱包找零地址"
 
 #: gui/qt/transaction_dialog.py:226
 msgid "Wallet receive address"
@@ -2244,9 +2244,6 @@ msgstr "Bitcoin Nano插件"
 msgid "Before reporting a bug, upgrade to the most recent version of Bitcoin Nano (latest release or git HEAD), and include the version number in your report."
 msgstr "在报告错误之前，请升级到最新版本的Bitcoin Nano（最新版本或git HEAD），报告中要包含版本号"
 
-msgid "OK"
-msgstr "確定"
-
 msgid "Cancel"
 msgstr "取消"
 
@@ -2330,7 +2327,7 @@ msgid "Pay"
 msgstr "支付"
 
 msgid "Recipient"
-msgstr "接受人"
+msgstr "接收地址"
 
 msgid "Balance"
 msgstr "余额"
@@ -2339,7 +2336,7 @@ msgid "Addresses"
 msgstr "地址"
 
 msgid "Change"
-msgstr "变更"
+msgstr "找零"
 
 msgid "All"
 msgstr "所有"
@@ -2396,9 +2393,6 @@ msgstr "隐藏种子"
 msgid "MASTER PUBLIC KEY"
 msgstr "主公钥"
 
-msgid "If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds."
-msgstr "如果你忘记了你的PIN或丢失了设备，你的种子密语将是唯一途径用于找回你的资金"
-
 msgid "Copy and paste the recipient address using the Paste button, or use the camera to scan a QR code."
 msgstr "复制并使用粘贴按钮粘贴接收地址，或使用相机扫描二维码"
 
@@ -2445,7 +2439,7 @@ msgid 'Not connected'
 msgstr "不能连接"
 
 msgid "PIN numbers do not match"
-msgstr "PIN不匹配"
+msgstr "两次输入的PIN不一致"
 
 msgid "Invalid PIN"
 msgstr "无效的PIN"
@@ -2487,9 +2481,48 @@ msgid "Used"
 msgstr "已使用"
 
 msgid "Funded"
-msgstr "捐助"
+msgstr "存额"
 
 msgid "No address matching your search"
 msgstr "没有符合的地址"
 
+
+msgid "Choose a PIN code"
+msgstr "设置一个PIN"
+
+msgid "Confirm your PIN code"
+msgstr "确认您的PIN"
+
+msgid "Bitcoin Nano wallet is generating your addresses, please wait."
+msgstr "Bitcoin Nano 钱包正在生成您的地址，请等待。"
+
+msgid "Change your PIN code."
+msgstr "修改您的PIN"
+
+msgid "Send your change to separate addresses."
+msgstr "将你的找零发送到另外的地址"
+
+msgid "Send excess coins to change addresses"
+msgstr "发送多余的币到找零地址"
+
+msgid "Amount received"
+msgstr "接收的金额"
+
+msgid "Amount sent"
+msgstr "发送的金额"
+
+msgid "Connections with Bitcoin Nano servers"
+msgstr "与Bitcoin Nano服务器的连接"
+
+msgid "Select your server automatically"
+msgstr "自动选择服务器"
+
+msgid "Verified block headers"
+msgstr "确认区块头"
+
+msgid "Transaction fee"
+msgstr "交易费用"
+
+msgid "Enter Amount"
+msgstr "输入金额"
 

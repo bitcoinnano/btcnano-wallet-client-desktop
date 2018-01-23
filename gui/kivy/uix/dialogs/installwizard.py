@@ -422,7 +422,7 @@ Builder.load_string('''
             text: root.seed_text
             on_release: root.options_dialog()
         SeedLabel:
-            text: root.message
+            text: _("If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds.")
 
 
 <LineDialog>
@@ -557,9 +557,8 @@ class LineDialog(WizardDialog):
 
 class ShowSeedDialog(WizardDialog):
     seed_text = StringProperty('')
-    message = _(
-        "If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds.")
     ext = False
+    message = _("If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds.")
 
     def __init__(self, wizard, **kwargs):
         super(ShowSeedDialog, self).__init__(wizard, **kwargs)
@@ -861,7 +860,7 @@ class InstallWizard(BaseWizard, Widget):
             else:
                 run_next(None, None)
 
-        self.password_dialog('Choose a PIN code', callback)
+        self.password_dialog(_('Choose a PIN code'), callback)
 
     def confirm_password(self, pin, run_next):
         def callback(conf):
@@ -871,7 +870,7 @@ class InstallWizard(BaseWizard, Widget):
                 self.show_error(_('PIN mismatch'))
                 self.run('request_password', run_next)
 
-        self.password_dialog('Confirm your PIN code', callback)
+        self.password_dialog(_('Confirm your PIN code'), callback)
 
     def action_dialog(self, action, run_next):
         f = getattr(self, action)
@@ -1068,5 +1067,5 @@ class InstallWizard(BaseWizard, Widget):
             self.wallet.storage.write()
             self.terminate()
 
-        msg = _("Bitcoin Nano is generating your addresses, please wait.")
+        msg = _("Bitcoin Nano wallet is generating your addresses, please wait.")
         self.waiting_dialog(task, msg)

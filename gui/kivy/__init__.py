@@ -55,6 +55,7 @@ class ElectrumGui:
     def main(self):
         from .main_window import ElectrumWindow
         self.config.open_last_wallet()
+        # self.cmdline_options['default_wallet_path'] = last_wallet
         w = ElectrumWindow(config=self.config,
                            network=self.network,
                            plugins = self.plugins,

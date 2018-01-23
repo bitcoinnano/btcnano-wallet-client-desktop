@@ -32,6 +32,12 @@ Builder.load_string('''
                 height: self.minimum_height
                 padding: '10dp'
                 SettingsItem:
+                    lang: settings.get_language_name()
+                    title: 'Language' + ': ' + str(self.lang)
+                    description: _('Language')
+                    action: partial(root.language_dialog, self)
+                CardSeparator
+                SettingsItem:
                     status: '' if root.disable_pin else ('ON' if root.use_encryption else 'OFF')
                     disabled: root.disable_pin
                     title: _('PIN code') + ': ' + self.status

@@ -62,7 +62,7 @@ class BaseWizard(object):
             raise BaseException("unknown action", action)
 
     def can_go_back(self):
-        return len(self.stack)>1
+        return len(self.stack) > 1
 
     def go_back(self):
         if not self.can_go_back():
@@ -78,9 +78,9 @@ class BaseWizard(object):
             _("What kind of wallet do you want to create?")
         ])
         wallet_kinds = [
-            ('standard',  _("Standard wallet")),
-            ('multisig',  _("Multi-signature wallet")),
-            ('imported',  _("Import Bitcoin addresses or private keys")),
+            ('standard', _("Standard wallet")),
+            ('multisig', _("Multi-signature wallet")),
+            ('imported', _("Import Bitcoin addresses or private keys")),
         ]
         choices = [pair for pair in wallet_kinds if pair[0] in wallet_types]
         self.choice_dialog(title=title, message=message, choices=choices, run_next=self.on_wallet_type)
@@ -97,17 +97,18 @@ class BaseWizard(object):
 
     def choose_multisig(self):
         def on_multisig(m, n):
-            self.multisig_type = "%dof%d"%(m, n)
+            self.multisig_type = "%dof%d" % (m, n)
             self.storage.put('wallet_type', self.multisig_type)
             self.n = n
             self.run('choose_keystore')
+
         self.multisig_dialog(run_next=on_multisig)
 
     def choose_keystore(self):
         assert self.wallet_type in ['standard', 'multisig']
         i = len(self.keystores)
-        title = _('Add cosigner') + ' (%d of %d)'%(i+1, self.n) if self.wallet_type=='multisig' else _('Keystore')
-        if self.wallet_type =='standard' or i==0:
+        title = _('Add cosigner') + ' (%d of %d)' % (i + 1, self.n) if self.wallet_type == 'multisig' else _('Keystore')
+        if self.wallet_type == 'standard' or i == 0:
             message = _('Do you want to create a new seed, or to restore a wallet using an existing seed?')
             choices = [
                 ('create_standard_seed', _('Create a new seed')),
@@ -115,7 +116,7 @@ class BaseWizard(object):
                 ('restore_from_key', _('Use public or private keys')),
             ]
             if not self.is_kivy:
-                choices.append(('choose_hw_device',  _('Use a hardware device')))
+                choices.append(('choose_hw_device', _('Use a hardware device')))
         else:
             message = _('Add a cosigner to your multi-sig wallet')
             choices = [
@@ -123,14 +124,15 @@ class BaseWizard(object):
                 ('restore_from_seed', _('Enter cosigner seed')),
             ]
             if not self.is_kivy:
-                choices.append(('choose_hw_device',  _('Cosign with hardware device')))
+                choices.append(('choose_hw_device', _('Cosign with hardware device')))
 
         self.choice_dialog(title=title, message=message, choices=choices, run_next=self.run)
 
     def import_addresses_or_keys(self):
         v = lambda x: keystore.is_address_list(x) or keystore.is_private_key_list(x)
         title = _("Import Bitcoin Addresses")
-        message = _("Enter a list of Bitcoin addresses (this will create a watching-only wallet), or a list of private keys.")
+        message = _(
+            "Enter a list of Bitcoin addresses (this will create a watching-only wallet), or a list of private keys.")
         self.add_xpub_dialog(title=title, message=message, run_next=self.on_import, is_valid=v)
 
     def on_import(self, text):
@@ -172,7 +174,7 @@ class BaseWizard(object):
                 _('No hardware wallet support found on your system.'),
                 _('Please install the relevant libraries (eg python-trezor for Trezor).'),
             ])
-            self.confirm_dialog(title=title, message=msg, run_next= lambda x: self.choose_hw_device())
+            self.confirm_dialog(title=title, message=msg, run_next=lambda x: self.choose_hw_device())
             return
         # scan devices
         devices = []
@@ -189,17 +191,18 @@ class BaseWizard(object):
             msg = ''.join([
                 _('No hardware device detected.') + '\n',
                 _('To trigger a rescan, press \'Next\'.') + '\n\n',
-                _('If your device is not detected on Windows, go to "Settings", "Devices", "Connected devices", and do "Remove device". Then, plug your device again.') + ' ',
+                _(
+                    'If your device is not detected on Windows, go to "Settings", "Devices", "Connected devices", and do "Remove device". Then, plug your device again.') + ' ',
                 _('On Linux, you might have to add a new permission to your udev rules.'),
             ])
-            self.confirm_dialog(title=title, message=msg, run_next= lambda x: self.choose_hw_device())
+            self.confirm_dialog(title=title, message=msg, run_next=lambda x: self.choose_hw_device())
             return
         # select device
         self.devices = devices
         choices = []
         for name, info in devices:
             state = _("initialized") if info.initialized else _("wiped")
-            label = info.label or _("An unnamed %s")%name
+            label = info.label or _("An unnamed %s") % name
             descr = "%s [%s, %s]" % (label, name, state)
             choices.append(((name, info), descr))
         msg = _('Select a device') + ':'
@@ -214,7 +217,7 @@ class BaseWizard(object):
             self.choose_hw_device()
             return
         f = lambda x: self.run('on_hw_derivation', name, device_info, str(x))
-        if self.wallet_type=='multisig':
+        if self.wallet_type == 'multisig':
             # There is no general standard for HD multisig.
             # This is partially compatible with BIP45; assumes index=0
             default_derivation = "m/45'/0"
@@ -227,10 +230,11 @@ class BaseWizard(object):
         message = '\n'.join([
             _('Enter your wallet derivation here.'),
             _('If you are not sure what this is, leave this field unchanged.'),
-	    _("If you want the wallet to use legacy Bitcoin addresses use m/44'/0'/0'"),
-	    _("If you want the wallet to use Bitcoin Cash addresses use m/44'/145'/0'")
+            _("If you want the wallet to use legacy Bitcoin addresses use m/44'/0'/0'"),
+            _("If you want the wallet to use Bitcoin Cash addresses use m/44'/145'/0'")
         ])
-        self.line_dialog(run_next=f, title=_('Derivation'), message=message, default=default, test=bitcoin.is_bip32_derivation)
+        self.line_dialog(run_next=f, title=_('Derivation'), message=message, default=default,
+                         test=bitcoin.is_bip32_derivation)
 
     def derivation_dialog_other(self, f, default_derivation):
         message = '\n'.join([
@@ -269,7 +273,8 @@ class BaseWizard(object):
             _('Note that this is NOT your encryption password.'),
             _('If you do not know what this is, leave this field empty.'),
         ])
-        self.line_dialog(title=title, message=message, warning=warning, default='', test=lambda x:True, run_next=run_next)
+        self.line_dialog(title=title, message=message, warning=warning, default='', test=lambda x: True,
+                         run_next=run_next)
 
     def restore_from_seed(self):
         self.opt_bip39 = True
@@ -278,13 +283,13 @@ class BaseWizard(object):
         test = bitcoin.is_seed if self.wallet_type == 'standard' else bitcoin.is_new_seed
         self.restore_seed_dialog(run_next=self.on_restore_seed, test=test)
 
-    def on_restore_seed(self, seed, is_bip39, is_ext,is_bip39_145=False):
+    def on_restore_seed(self, seed, is_bip39, is_ext, is_bip39_145=False):
         self.seed_type = 'bip39' if is_bip39 else bitcoin.seed_type(seed)
         if self.seed_type == 'bip39':
             if is_bip39_145 == True:
-                f=lambda passphrase: self.on_restore_bip39_145(seed, passphrase)
+                f = lambda passphrase: self.on_restore_bip39_145(seed, passphrase)
             else:
-                f=lambda passphrase: self.on_restore_bip39(seed, passphrase)
+                f = lambda passphrase: self.on_restore_bip39(seed, passphrase)
             self.passphrase_dialog(run_next=f) if is_ext else f('')
         elif self.seed_type in ['standard']:
             f = lambda passphrase: self.run('create_keystore', seed, passphrase)
@@ -317,7 +322,7 @@ class BaseWizard(object):
             t1 = xpub_type(k.xpub)
         if self.wallet_type == 'standard':
             if has_xpub and t1 not in ['standard']:
-                self.show_error(_('Wrong key type') + ' %s'%t1)
+                self.show_error(_('Wrong key type') + ' %s' % t1)
                 self.run('choose_keystore')
                 return
             self.keystores.append(k)
@@ -325,17 +330,18 @@ class BaseWizard(object):
         elif self.wallet_type == 'multisig':
             assert has_xpub
             if t1 not in ['standard']:
-                self.show_error(_('Wrong key type') + ' %s'%t1)
+                self.show_error(_('Wrong key type') + ' %s' % t1)
                 self.run('choose_keystore')
                 return
             if k.xpub in map(lambda x: x.xpub, self.keystores):
                 self.show_error(_('Error: duplicate master public key'))
                 self.run('choose_keystore')
                 return
-            if len(self.keystores)>0:
+            if len(self.keystores) > 0:
                 t2 = xpub_type(self.keystores[0].xpub)
                 if t1 != t2:
-                    self.show_error(_('Cannot add this cosigner:') + '\n' + "Their key type is '%s', we are '%s'"%(t1, t2))
+                    self.show_error(
+                        _('Cannot add this cosigner:') + '\n' + "Their key type is '%s', we are '%s'" % (t1, t2))
                     self.run('choose_keystore')
                     return
             self.keystores.append(k)
@@ -367,7 +373,7 @@ class BaseWizard(object):
             self.run('create_addresses')
         elif self.wallet_type == 'multisig':
             for i, k in enumerate(self.keystores):
-                self.storage.put('x%d/'%(i+1), k.dump())
+                self.storage.put('x%d/' % (i + 1), k.dump())
             self.storage.write()
             self.wallet = Multisig_Wallet(self.storage)
             self.run('create_addresses')
@@ -379,7 +385,8 @@ class BaseWizard(object):
         k = keystore.from_master_key(text, password)
         self.on_keystore(k)
 
-    def create_standard_seed(self): self.create_seed('standard')
+    def create_standard_seed(self):
+        self.create_seed('standard')
 
     def create_seed(self, seed_type):
         from . import mnemonic
@@ -398,7 +405,7 @@ class BaseWizard(object):
 
     def confirm_seed(self, seed, passphrase):
         f = lambda x: self.confirm_passphrase(seed, passphrase)
-        self.confirm_seed_dialog(run_next=f, test=lambda x: x==seed)
+        self.confirm_seed_dialog(run_next=f, test=lambda x: x == seed)
 
     def confirm_passphrase(self, seed, passphrase):
         f = lambda x: self.run('create_keystore', seed, x)
@@ -408,7 +415,7 @@ class BaseWizard(object):
                 _('Your seed extension must be saved together with your seed.'),
                 _('Please type it here.'),
             ])
-            self.line_dialog(run_next=f, title=title, message=message, default='', test=lambda x: x==passphrase)
+            self.line_dialog(run_next=f, title=title, message=message, default='', test=lambda x: x == passphrase)
         else:
             f('')
 
@@ -417,5 +424,6 @@ class BaseWizard(object):
             self.wallet.synchronize()
             self.wallet.storage.write()
             self.terminate()
+
         msg = _("Bitcoin Nano is generating your addresses, please wait.")
         self.waiting_dialog(task, msg)

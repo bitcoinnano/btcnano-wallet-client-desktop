@@ -2,6 +2,9 @@
 from functools import partial
 import threading
 
+import os
+
+from bitcoinnano.i18n import languages
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
@@ -16,7 +19,9 @@ from kivy.utils import platform
 
 from bitcoinnano.base_wizard import BaseWizard
 
-
+from gui.kivy.uix.dialogs.choice_dialog import ChoiceDialog
+from lib import keystore
+from lib.wallet import wallet_types
 from . import EventsDialog
 from ...i18n import _
 from .password_dialog import PasswordDialog
@@ -29,7 +34,7 @@ test_xpub = "xpub661MyMwAqRbcEbvVtRRSjqxVnaWVUMewVzMiURAKyYratih4TtBpMypzzefmv8z
 Builder.load_string('''
 #:import Window kivy.core.window.Window
 #:import _ bitcoinnano_gui.kivy.i18n._
-
+#:import partial functools.partial
 
 <WizardTextInput@TextInput>
     border: 4, 4, 4, 4
@@ -93,6 +98,15 @@ Builder.load_string('''
                 height: self.texture_size[1] if self.opacity else 0
                 font_size: '33sp'
                 font_name: 'gui/kivy/data/fonts/tron/Tr2n.ttf'
+        Button:
+            text: 'Language'
+            font_size: '13sp'
+            size_hint: None, None
+            size: 150, 44
+            size_hint: None, None
+            background_color: 0, 0, 0, 0
+            pos_hint: {'center_x': .8}
+            on_release: root.language_dialog_first()
         GridLayout:
             cols: 1
             id: crcontent
@@ -214,7 +228,7 @@ Builder.load_string('''
     message: ''
     word: ''
     BigLabel:
-        text: "ENTER YOUR SEED PHRASE"
+        text: _("ENTER YOUR SEED PHRASE")
     GridLayout
         cols: 1
         padding: 0, '12dp'
@@ -388,7 +402,7 @@ Builder.load_string('''
     spacing: '12dp'
     value: 'next'
     BigLabel:
-        text: "PLEASE WRITE DOWN YOUR SEED PHRASE"
+        text: _("PLEASE WRITE DOWN YOUR SEED PHRASE")
     GridLayout:
         id: grid
         cols: 1
@@ -438,6 +452,9 @@ class WizardDialog(EventsDialog):
                     rotation=_trigger_size_dialog)
         _trigger_size_dialog()
         self._on_release = False
+        # for language change
+        self._language_dialog_first = None
+        self.config = self.app.electrum_config
 
     def _size_dialog(self, dt):
         app = App.get_running_app()
@@ -478,6 +495,20 @@ class WizardDialog(EventsDialog):
         print(params)
         print(self.run_next, type(self.run_next))
         self.run_next(*params)
+
+    def language_dialog_first(self):
+        if self._language_dialog_first is None:
+            l = self.config.get('language', 'en')
+            def cb(key):
+                self.config.set_key("language", key, True)
+                # item.lang = self.get_language_name()
+                self.app.language = key
+            self._language_dialog_first = ChoiceDialog(_('Language'), languages, l, cb)
+        self._language_dialog_first.open()
+
+
+    def get_language_name(self):
+        return languages.get(self.config.get('language', 'en_UK'), '')
 
 
 class WizardMultisigDialog(WizardDialog):
@@ -825,3 +856,200 @@ class InstallWizard(BaseWizard, Widget):
     def action_dialog(self, action, run_next):
         f = getattr(self, action)
         f()
+
+    def new(self):
+        name = os.path.basename(self.storage.path)
+        title = _("Create") + ' ' + name
+        message = '\n'.join([
+            _("What kind of wallet do you want to create ?")
+        ])
+        wallet_kinds = [
+            ('standard', _("Standard wallet")),
+            ('multisig', _("Multi-signature wallet")),
+            ('imported', _("Import Bitcoin addresses or private keys")),
+        ]
+        choices = [pair for pair in wallet_kinds if pair[0] in wallet_types]
+        self.choice_dialog(title=title, message=message, choices=choices, run_next=self.on_wallet_type)
+
+
+    def choose_keystore(self):
+        assert self.wallet_type in ['standard', 'multisig']
+        i = len(self.keystores)
+        title = _('Add cosigner') + ' (%d of %d)' % (i + 1, self.n) if self.wallet_type == 'multisig' else _('Keystore')
+        if self.wallet_type == 'standard' or i == 0:
+            message = _('Do you want to create a new seed, or to restore a wallet using an existing seed?')
+            choices = [
+                ('create_standard_seed', _('Create a new seed')),
+                ('restore_from_seed', _('I already have a seed')),
+                ('restore_from_key', _('Use public or private keys')),
+            ]
+            if not self.is_kivy:
+                choices.append(('choose_hw_device', _('Use a hardware device')))
+        else:
+            message = _('Add a cosigner to your multi-sig wallet')
+            choices = [
+                ('restore_from_key', _('Enter cosigner key')),
+                ('restore_from_seed', _('Enter cosigner seed')),
+            ]
+            if not self.is_kivy:
+                choices.append(('choose_hw_device', _('Cosign with hardware device')))
+
+        self.choice_dialog(title=title, message=message, choices=choices, run_next=self.run)
+
+    def import_addresses_or_keys(self):
+        v = lambda x: keystore.is_address_list(x) or keystore.is_private_key_list(x)
+        title = _("Import Bitcoin Addresses")
+        message = _(
+            "Enter a list of Bitcoin addresses (this will create a watching-only wallet), or a list of private keys.")
+        self.add_xpub_dialog(title=title, message=message, run_next=self.on_import, is_valid=v)
+
+
+    def restore_from_key(self):
+        if self.wallet_type == 'standard':
+            v = keystore.is_master_key
+            title = _("Create keystore from a master key")
+            message = ' '.join([
+                _("To create a watching-only wallet, please enter your master public key (xpub/ypub/zpub)."),
+                _("To create a spending wallet, please enter a master private key (xprv/yprv/zprv).")
+            ])
+            self.add_xpub_dialog(title=title, message=message, run_next=self.on_restore_from_key, is_valid=v)
+        else:
+            i = len(self.keystores) + 1
+            self.add_cosigner_dialog(index=i, run_next=self.on_restore_from_key, is_valid=keystore.is_bip32_key)
+
+
+    def choose_hw_device(self):
+        title = _('Hardware Keystore')
+        # check available plugins
+        support = self.plugins.get_hardware_support()
+        if not support:
+            msg = '\n'.join([
+                _('No hardware wallet support found on your system.'),
+                _('Please install the relevant libraries (eg python-trezor for Trezor).'),
+            ])
+            self.confirm_dialog(title=title, message=msg, run_next=lambda x: self.choose_hw_device())
+            return
+        # scan devices
+        devices = []
+        devmgr = self.plugins.device_manager
+        for name, description, plugin in support:
+            try:
+                # FIXME: side-effect: unpaired_device_info sets client.handler
+                u = devmgr.unpaired_device_infos(None, plugin)
+            except:
+                devmgr.print_error("error", name)
+                continue
+            devices += list(map(lambda x: (name, x), u))
+        if not devices:
+            msg = ''.join([
+                _('No hardware device detected.') + '\n',
+                _('To trigger a rescan, press \'Next\'.') + '\n\n',
+                _(
+                    'If your device is not detected on Windows, go to "Settings", "Devices", "Connected devices", and do "Remove device". Then, plug your device again.') + ' ',
+                _('On Linux, you might have to add a new permission to your udev rules.'),
+            ])
+            self.confirm_dialog(title=title, message=msg, run_next=lambda x: self.choose_hw_device())
+            return
+        # select device
+        self.devices = devices
+        choices = []
+        for name, info in devices:
+            state = _("initialized") if info.initialized else _("wiped")
+            label = info.label or _("An unnamed %s") % name
+            descr = "%s [%s, %s]" % (label, name, state)
+            choices.append(((name, info), descr))
+        msg = _('Select a device') + ':'
+        self.choice_dialog(title=title, message=msg, choices=choices, run_next=self.on_device)
+
+    def derivation_dialog(self, f):
+        default = bip44_derivation(0)
+        message = '\n'.join([
+            _('Enter your wallet derivation here.'),
+            _('If you are not sure what this is, leave this field unchanged.'),
+            _("If you want the wallet to use legacy Bitcoin addresses use m/44'/0'/0'"),
+            _("If you want the wallet to use Bitcoin Cash addresses use m/44'/145'/0'")
+        ])
+        self.line_dialog(run_next=f, title=_('Derivation'), message=message, default=default,
+                         test=bitcoin.is_bip32_derivation)
+
+    def derivation_dialog_other(self, f, default_derivation):
+        message = '\n'.join([
+            _('Enter your wallet derivation here.'),
+            _('If you are not sure what this is, leave this field unchanged.')
+        ])
+        self.line_dialog(run_next=f, title=_('Derivation'), message=message,
+                         default=default_derivation,
+                         test=bitcoin.is_bip32_derivation)
+
+    def passphrase_dialog(self, run_next):
+        title = _('Seed extension')
+        message = '\n'.join([
+            _('You may extend your seed with custom words.'),
+            _('Your seed extension must be saved together with your seed.'),
+        ])
+        warning = '\n'.join([
+            _('Note that this is NOT your encryption password.'),
+            _('If you do not know what this is, leave this field empty.'),
+        ])
+        self.line_dialog(title=title, message=message, warning=warning, default='', test=lambda x: True,
+                         run_next=run_next)
+
+    def on_keystore(self, k):
+        has_xpub = isinstance(k, keystore.Xpub)
+        if has_xpub:
+            from .bitcoin import xpub_type
+            t1 = xpub_type(k.xpub)
+        if self.wallet_type == 'standard':
+            if has_xpub and t1 not in ['standard']:
+                self.show_error(_('Wrong key type') + ' %s' % t1)
+                self.run('choose_keystore')
+                return
+            self.keystores.append(k)
+            self.run('create_wallet')
+        elif self.wallet_type == 'multisig':
+            assert has_xpub
+            if t1 not in ['standard']:
+                self.show_error(_('Wrong key type') + ' %s' % t1)
+                self.run('choose_keystore')
+                return
+            if k.xpub in map(lambda x: x.xpub, self.keystores):
+                self.show_error(_('Error: duplicate master public key'))
+                self.run('choose_keystore')
+                return
+            if len(self.keystores) > 0:
+                t2 = xpub_type(self.keystores[0].xpub)
+                if t1 != t2:
+                    self.show_error(
+                        _('Cannot add this cosigner:') + '\n' + "Their key type is '%s', we are '%s'" % (t1, t2))
+                    self.run('choose_keystore')
+                    return
+            self.keystores.append(k)
+            if len(self.keystores) == 1:
+                xpub = k.get_master_public_key()
+                self.stack = []
+                self.run('show_xpub_and_add_cosigners', xpub)
+            elif len(self.keystores) < self.n:
+                self.run('choose_keystore')
+            else:
+                self.run('create_wallet')
+
+    def confirm_passphrase(self, seed, passphrase):
+        f = lambda x: self.run('create_keystore', seed, x)
+        if passphrase:
+            title = _('Confirm Seed Extension')
+            message = '\n'.join([
+                _('Your seed extension must be saved together with your seed.'),
+                _('Please type it here.'),
+            ])
+            self.line_dialog(run_next=f, title=title, message=message, default='', test=lambda x: x == passphrase)
+        else:
+            f('')
+
+    def create_addresses(self):
+        def task():
+            self.wallet.synchronize()
+            self.wallet.storage.write()
+            self.terminate()
+
+        msg = _("Bitcoin Nano is generating your addresses, please wait.")
+        self.waiting_dialog(task, msg)

@@ -194,7 +194,7 @@ Builder.load_string('''
                 size_hint: 0.5, None
                 height: '48dp'
                 on_release:
-                    root.callback(input.text + ' ' + app.base_unit)
+                    root.callback(input.text + ' ' + app.base_unit) if input.text else popup.dismiss()
                     popup.dismiss()
 ''')
 

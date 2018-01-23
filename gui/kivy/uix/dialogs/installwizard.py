@@ -190,7 +190,7 @@ Builder.load_string('''
 
 <MButton@Button>:
     size_hint: 1, None
-    height: '33dp'
+    height: '40dp'
     on_release:
         self.parent.update_amount(self.text)
 
@@ -253,9 +253,10 @@ Builder.load_string('''
             new_word: root.on_word
         BoxLayout:
             id: line1
+            spacing:'2dp'
             update_amount: root.update_text
             size_hint: 1, None
-            height: '30dp'
+            height: '40dp'
             MButton:
                 text: 'Q'
             MButton:
@@ -280,10 +281,11 @@ Builder.load_string('''
             id: line2
             update_amount: root.update_text
             size_hint: 1, None
-            height: '30dp'
+            height: '40dp'
+            spacing:'2dp'
             Widget:
                 size_hint: 0.5, None
-                height: '33dp'
+                height: '40dp'
             MButton:
                 text: 'A'
             MButton:
@@ -304,12 +306,13 @@ Builder.load_string('''
                 text: 'L'
             Widget:
                 size_hint: 0.5, None
-                height: '33dp'
+                height: '40dp'
         BoxLayout:
             id: line3
             update_amount: root.update_text
             size_hint: 1, None
-            height: '30dp'
+            height: '40dp'
+            spacing:'2dp'
             Widget:
                 size_hint: 1, None
             MButton:
@@ -327,9 +330,10 @@ Builder.load_string('''
             MButton:
                 text: 'M'
             MButton:
-                text: ' '
-            MButton:
                 text: '<'
+            Widget:
+                size_hint: 1, None
+                height: '40dp'
 
 <AddXpubDialog>
     title: ''
@@ -598,6 +602,13 @@ class RestoreSeedDialog(WizardDialog):
         self.message = _('Please type your seed phrase using the virtual keyboard.')
         self.title = _('Enter Seed')
         self.ext = False
+
+        # Modifying the style of the input method
+        for line in [self.ids.line1, self.ids.line2, self.ids.line3]:
+            for c in line.children:
+                if isinstance(c, Button):
+                    c.font_size = '20sp'
+                    c.font_name = 'gui/kivy/data/fonts/SourceHanSansK-Bold.ttf'
 
     def options_dialog(self):
         from .seed_options import SeedOptionsDialog

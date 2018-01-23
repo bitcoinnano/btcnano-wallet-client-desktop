@@ -1,10 +1,8 @@
+import os
 
 from functools import partial
 import threading
 
-import os
-
-from bitcoinnano.i18n import languages
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.lang import Builder
@@ -17,13 +15,18 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.utils import platform
 
+from .choice_dialog import ChoiceDialog
+from bitcoinnano.i18n import languages
+from bitcoinnano_gui.kivy.i18n import _
+from lib.wallet import wallet_types
+from lib import keystore,bitcoin
+from lib.keystore import bip44_derivation, bip44_derivation_145
+
+
 from bitcoinnano.base_wizard import BaseWizard
 
-from gui.kivy.uix.dialogs.choice_dialog import ChoiceDialog
-from lib import keystore
-from lib.wallet import wallet_types
 from . import EventsDialog
-from ...i18n import _
+# from ...i18n import _
 from .password_dialog import PasswordDialog
 
 # global Variables
@@ -34,7 +37,7 @@ test_xpub = "xpub661MyMwAqRbcEbvVtRRSjqxVnaWVUMewVzMiURAKyYratih4TtBpMypzzefmv8z
 Builder.load_string('''
 #:import Window kivy.core.window.Window
 #:import _ bitcoinnano_gui.kivy.i18n._
-#:import partial functools.partial
+
 
 <WizardTextInput@TextInput>
     border: 4, 4, 4, 4
@@ -105,7 +108,7 @@ Builder.load_string('''
             size: 150, 44
             size_hint: None, None
             background_color: 0, 0, 0, 0
-            pos_hint: {'center_x': .8}
+            pos_hint: {'center_x': .9}
             on_release: root.language_dialog_first()
         GridLayout:
             cols: 1
@@ -228,7 +231,7 @@ Builder.load_string('''
     message: ''
     word: ''
     BigLabel:
-        text: _("ENTER YOUR SEED PHRASE")
+        text: "ENTER YOUR SEED PHRASE"
     GridLayout
         cols: 1
         padding: 0, '12dp'
@@ -402,7 +405,7 @@ Builder.load_string('''
     spacing: '12dp'
     value: 'next'
     BigLabel:
-        text: _("PLEASE WRITE DOWN YOUR SEED PHRASE")
+        text: "PLEASE WRITE DOWN YOUR SEED PHRASE"
     GridLayout:
         id: grid
         cols: 1
@@ -435,7 +438,6 @@ Builder.load_string('''
 ''')
 
 
-
 class WizardDialog(EventsDialog):
     ''' Abstract dialog to be used as the base for all Create Account Dialogs
     '''
@@ -452,21 +454,18 @@ class WizardDialog(EventsDialog):
                     rotation=_trigger_size_dialog)
         _trigger_size_dialog()
         self._on_release = False
-        # for language change
-        self._language_dialog_first = None
-        self.config = self.app.electrum_config
 
     def _size_dialog(self, dt):
         app = App.get_running_app()
         if app.ui_mode[0] == 'p':
             self.size = Window.size
         else:
-            #tablet
+            # tablet
             if app.orientation[0] == 'p':
-                #portrait
-                self.size = Window.size[0]/1.67, Window.size[1]/1.4
+                # portrait
+                self.size = Window.size[0] / 1.67, Window.size[1] / 1.4
             else:
-                self.size = Window.size[0]/2.5, Window.size[1]
+                self.size = Window.size[0] / 2.5, Window.size[1]
 
     def add_widget(self, widget, index=0):
         if not self.crcontent:
@@ -497,18 +496,24 @@ class WizardDialog(EventsDialog):
         self.run_next(*params)
 
     def language_dialog_first(self):
-        if self._language_dialog_first is None:
-            l = self.config.get('language', 'en')
-            def cb(key):
-                self.config.set_key("language", key, True)
-                # item.lang = self.get_language_name()
-                self.app.language = key
-            self._language_dialog_first = ChoiceDialog(_('Language'), languages, l, cb)
-        self._language_dialog_first.open()
+        #
+        # # for language change
+        # self._language_dialog_first = None
+        # self.config = self.app.electrum_config
 
+        l = self.app.electrum_config.get('language', 'en')
 
-    def get_language_name(self):
-        return languages.get(self.config.get('language', 'en_UK'), '')
+        def cb(key):
+            self.app.electrum_config.set_key("language", key, True)
+            # item.lang = self.get_language_name()
+            self.app.language = key
+
+        language_dialog_first = ChoiceDialog(_('Language'), languages, l, cb)
+        language_dialog_first.open()
+
+    #
+    # def get_language_name(self):
+    #     return languages.get(self.config.get('language', 'en_UK'), '')
 
 
 class WizardMultisigDialog(WizardDialog):
@@ -517,6 +522,7 @@ class WizardMultisigDialog(WizardDialog):
         m = self.ids.m.value
         n = self.ids.n.value
         return m, n
+
 
 class WizardChoiceDialog(WizardDialog):
 
@@ -542,7 +548,6 @@ class WizardChoiceDialog(WizardDialog):
         return (button.action,)
 
 
-
 class LineDialog(WizardDialog):
     title = StringProperty('')
     message = StringProperty('')
@@ -555,9 +560,11 @@ class LineDialog(WizardDialog):
     def get_params(self, b):
         return (self.ids.passphrase_input.text,)
 
+
 class ShowSeedDialog(WizardDialog):
     seed_text = StringProperty('')
-    message = _("If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds.")
+    message = _(
+        "If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds.")
     ext = False
 
     def __init__(self, wizard, **kwargs):
@@ -573,6 +580,7 @@ class ShowSeedDialog(WizardDialog):
         from .seed_options import SeedOptionsDialog
         def callback(status):
             self.ext = status
+
         d = SeedOptionsDialog(self.ext, callback)
         d.open()
 
@@ -582,6 +590,7 @@ class ShowSeedDialog(WizardDialog):
 
 class WordButton(Button):
     pass
+
 
 class WizardButton(Button):
     pass
@@ -604,6 +613,7 @@ class RestoreSeedDialog(WizardDialog):
         from .seed_options import SeedOptionsDialog
         def callback(status):
             self.ext = status
+
         d = SeedOptionsDialog(self.ext, callback)
         d.open()
 
@@ -640,7 +650,7 @@ class RestoreSeedDialog(WizardDialog):
         i = len(last_word)
         p = set()
         for x in suggestions:
-            if len(x)>i: p.add(x[i])
+            if len(x) > i: p.add(x[i])
 
         for line in [self.ids.line1, self.ids.line2, self.ids.line3]:
             for c in line.children:
@@ -675,7 +685,7 @@ class RestoreSeedDialog(WizardDialog):
         if value:
             tis = self.ids.text_input_seed
             tis.focus = True
-            #tis._keyboard.bind(on_key_down=self.on_key_down)
+            # tis._keyboard.bind(on_key_down=self.on_key_down)
             self._back = _back = partial(self.ids.back.dispatch,
                                          'on_release')
             app = App.get_running_app()
@@ -686,7 +696,7 @@ class RestoreSeedDialog(WizardDialog):
             return True
 
     def on_enter(self):
-        #self._remove_keyboard()
+        # self._remove_keyboard()
         # press next
         next = self.ids.next
         if not next.disabled:
@@ -705,6 +715,7 @@ class RestoreSeedDialog(WizardDialog):
 class ConfirmSeedDialog(RestoreSeedDialog):
     def get_params(self, b):
         return (self.get_text(),)
+
     def options_dialog(self):
         pass
 
@@ -749,6 +760,7 @@ class AddXpubDialog(WizardDialog):
     def scan_xpub(self):
         def on_complete(text):
             self.ids.text_input.text = text
+
         self.app.scan_qr(on_complete)
 
     def do_paste(self):
@@ -758,8 +770,6 @@ class AddXpubDialog(WizardDialog):
         self.ids.text_input.text = ''
 
 
-
-
 class InstallWizard(BaseWizard, Widget):
     '''
     events::
@@ -767,7 +777,7 @@ class InstallWizard(BaseWizard, Widget):
         wallet/s.
     '''
 
-    __events__ = ('on_wizard_complete', )
+    __events__ = ('on_wizard_complete',)
 
     def on_wizard_complete(self, wallet):
         """overriden by main_window"""
@@ -777,6 +787,7 @@ class InstallWizard(BaseWizard, Widget):
         '''Perform a blocking task in the background by running the passed
         method in a thread.
         '''
+
         def target():
             # run your threaded function
             try:
@@ -790,7 +801,7 @@ class InstallWizard(BaseWizard, Widget):
         app.show_info_bubble(
             text=msg, icon='atlas://gui/kivy/theming/light/important',
             pos=Window.center, width='200sp', arrow_pos=None, modal=True)
-        t = threading.Thread(target = target)
+        t = threading.Thread(target=target)
         t.start()
 
     def terminate(self, **kwargs):
@@ -804,9 +815,14 @@ class InstallWizard(BaseWizard, Widget):
             f = kwargs['run_next']
             f(choices[0][0])
 
-    def multisig_dialog(self, **kwargs): WizardMultisigDialog(self, **kwargs).open()
-    def show_seed_dialog(self, **kwargs): ShowSeedDialog(self, **kwargs).open()
-    def line_dialog(self, **kwargs): LineDialog(self, **kwargs).open()
+    def multisig_dialog(self, **kwargs):
+        WizardMultisigDialog(self, **kwargs).open()
+
+    def show_seed_dialog(self, **kwargs):
+        ShowSeedDialog(self, **kwargs).open()
+
+    def line_dialog(self, **kwargs):
+        LineDialog(self, **kwargs).open()
 
     def confirm_seed_dialog(self, **kwargs):
         kwargs['title'] = _('Confirm Seed')
@@ -821,11 +837,12 @@ class InstallWizard(BaseWizard, Widget):
         AddXpubDialog(self, **kwargs).open()
 
     def add_cosigner_dialog(self, **kwargs):
-        kwargs['title'] = _("Add Cosigner") + " %d"%kwargs['index']
+        kwargs['title'] = _("Add Cosigner") + " %d" % kwargs['index']
         kwargs['message'] = _('Please paste your cosigners master public key, or scan it using the camera button.')
         AddXpubDialog(self, **kwargs).open()
 
-    def show_xpub_dialog(self, **kwargs): ShowXpubDialog(self, **kwargs).open()
+    def show_xpub_dialog(self, **kwargs):
+        ShowXpubDialog(self, **kwargs).open()
 
     def show_error(self, msg):
         app = App.get_running_app()
@@ -842,6 +859,7 @@ class InstallWizard(BaseWizard, Widget):
                 self.run('confirm_password', pin, run_next)
             else:
                 run_next(None, None)
+
         self.password_dialog('Choose a PIN code', callback)
 
     def confirm_password(self, pin, run_next):
@@ -851,6 +869,7 @@ class InstallWizard(BaseWizard, Widget):
             else:
                 self.show_error(_('PIN mismatch'))
                 self.run('request_password', run_next)
+
         self.password_dialog('Confirm your PIN code', callback)
 
     def action_dialog(self, action, run_next):
@@ -870,7 +889,6 @@ class InstallWizard(BaseWizard, Widget):
         ]
         choices = [pair for pair in wallet_kinds if pair[0] in wallet_types]
         self.choice_dialog(title=title, message=message, choices=choices, run_next=self.on_wallet_type)
-
 
     def choose_keystore(self):
         assert self.wallet_type in ['standard', 'multisig']
@@ -903,7 +921,6 @@ class InstallWizard(BaseWizard, Widget):
             "Enter a list of Bitcoin addresses (this will create a watching-only wallet), or a list of private keys.")
         self.add_xpub_dialog(title=title, message=message, run_next=self.on_import, is_valid=v)
 
-
     def restore_from_key(self):
         if self.wallet_type == 'standard':
             v = keystore.is_master_key
@@ -916,7 +933,6 @@ class InstallWizard(BaseWizard, Widget):
         else:
             i = len(self.keystores) + 1
             self.add_cosigner_dialog(index=i, run_next=self.on_restore_from_key, is_valid=keystore.is_bip32_key)
-
 
     def choose_hw_device(self):
         title = _('Hardware Keystore')
@@ -997,7 +1013,7 @@ class InstallWizard(BaseWizard, Widget):
     def on_keystore(self, k):
         has_xpub = isinstance(k, keystore.Xpub)
         if has_xpub:
-            from .bitcoin import xpub_type
+            from lib.bitcoin import xpub_type
             t1 = xpub_type(k.xpub)
         if self.wallet_type == 'standard':
             if has_xpub and t1 not in ['standard']:

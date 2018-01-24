@@ -33,7 +33,7 @@ Builder.load_string('''
                 padding: '10dp'
                 SettingsItem:
                     lang: settings.get_language_name()
-                    title: _('Language') + ': ' + str(self.lang)
+                    title: 'LANGUAGE' + ': ' + str(self.lang)
                     description: _('Language')
                     action: partial(root.language_dialog, self)
                 CardSeparator
@@ -46,22 +46,22 @@ Builder.load_string('''
                 CardSeparator
                 SettingsItem:
                     status: _('Yes') if app.use_change else _('No')
-                    title: _('Use change addresses') + ': ' + self.status
+                    title: _('Use change addresses: Yes') if app.use_change else _('Use change addresses: No')
                     description: _("Send your change to separate addresses.")
-                    message: _('Send excess coins to change addresses')
-                    action: partial(root.boolean_dialog, 'use_change', _('Use change addresses'), self.message)
+                    message: 'Send excess coins to change addresses'
+                    action: partial(root.boolean_dialog, 'use_change', 'Use change addresses', self.message)
                 CardSeparator
                 TopLabel:
                     text:_(' ')
                 TopLabel:
-                    text: _('Version') + ":"
+                    text: _('Version')
                     font_name: "gui/kivy/data/fonts/SourceHanSansK-Bold.ttf"
                 TopLabel
                     text: VERSION
                 TopLabel:
                     text:_(' ')
                 TopLabel:
-                    text: _('Contact us') + ":"
+                    text: _('Contact us') 
                     font_name: "gui/kivy/data/fonts/SourceHanSansK-Bold.ttf"
                     size_hint_x: 0.4
                 TopLabel:
@@ -70,7 +70,7 @@ Builder.load_string('''
                 TopLabel:
                     text: _(' ')
                 TopLabel:
-                    text: _('Homepage') + ":"
+                    text: _('Homepage') 
                     font_name: "gui/kivy/data/fonts/SourceHanSansK-Bold.ttf"
                     size_hint_x: 0.4
                 TopLabel:
@@ -85,7 +85,7 @@ Builder.load_string('''
                 CardSeparator
 
 ''')
-
+# Builder.load_file('gui/kivy/uix/dialog/dialog_kv/settings.kv')
 
 
 class SettingsDialog(Factory.Popup):
@@ -111,14 +111,14 @@ class SettingsDialog(Factory.Popup):
         self.use_encryption = self.wallet.has_password() if self.wallet else False
 
     def get_language_name(self):
-        return languages.get(self.config.get('language', 'en_UK'), '')
+        return languages.get(self.config.get('language', 'zh_CN'), '')
 
     def change_password(self, item, dt):
         self.app.change_password(self.update)
 
     def language_dialog(self, item, dt):
         if self._language_dialog is None:
-            l = self.config.get('language', 'en_UK')
+            l = self.config.get('language', 'zh_CN')
             def cb(key):
                 self.config.set_key("language", key, True)
                 item.lang = self.get_language_name()
@@ -205,7 +205,7 @@ class SettingsDialog(Factory.Popup):
 
     def boolean_dialog(self, name, title, message, dt):
         from .checkbox_dialog import CheckBoxDialog
-        CheckBoxDialog(title, message, getattr(self.app, name), lambda x: setattr(self.app, name, x)).open()
+        CheckBoxDialog(_(title), _(message), getattr(self.app, name), lambda x: setattr(self.app, name, x)).open()
 
     def fx_status(self):
         fx = self.app.fx

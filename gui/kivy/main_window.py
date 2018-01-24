@@ -77,7 +77,7 @@ from bitcoinnano.util import base_units
 
 class ElectrumWindow(App):
     electrum_config = ObjectProperty(None)
-    language = StringProperty('en')
+    language = StringProperty('zh_CN')
 
     # properties might be updated by the network
     num_blocks = NumericProperty(0)
@@ -692,7 +692,7 @@ class ElectrumWindow(App):
         else:
             status = _("Disconnected")
 
-        n = self.wallet.basename()
+        # n = self.wallet.basename()
         self.status = '[size=15dp]%s: %s[/size]' % (_("Balance"), status)
         # fiat_balance = self.fx.format_amount_and_units(c+u+x) or ''
 
@@ -870,7 +870,7 @@ class ElectrumWindow(App):
         else:
             self.show_info(_('Cannot broadcast transaction') + ':\n' + _('Not connected'))
 
-    def description_dialog(self, screen, title= _("Enter description")):
+    def description_dialog(self, screen, title="Enter description"):
         if title == "Enter description":
             title = _("Enter description")
         from .uix.dialogs.label_dialog import LabelDialog

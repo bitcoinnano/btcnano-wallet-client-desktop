@@ -7,7 +7,6 @@ class _(str):
 
     def __new__(cls, s, *args, **kwargs):
         if _.lang is None:
-            #_.switch_lang('zh_CN')
             _.switch_lang('en')
         t = _.translate(s, *args, **kwargs)
         o = super(_, cls).__new__(cls, t)

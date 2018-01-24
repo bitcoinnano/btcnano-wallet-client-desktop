@@ -24,11 +24,12 @@ from bitcoinnano.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRE
 
 from .context_menu import ContextMenu
 
-
 from bitcoinnano_gui.kivy.i18n import _
+
 
 class EmptyLabel(Factory.Label):
     pass
+
 
 class CScreen(Factory.Screen):
     __events__ = ('on_activate', 'on_deactivate', 'on_enter', 'on_leave')
@@ -68,7 +69,7 @@ class CScreen(Factory.Screen):
     def on_activate(self):
         if self.kvname and not self.loaded:
             self.load_screen()
-        #Clock.schedule_once(lambda dt: self._change_action_view())
+        # Clock.schedule_once(lambda dt: self._change_action_view())
 
     def on_leave(self):
         self.dispatch('on_deactivate')
@@ -101,8 +102,8 @@ TX_ICONS = [
     "confirmed",
 ]
 
-class HistoryScreen(CScreen):
 
+class HistoryScreen(CScreen):
     tab = ObjectProperty(None)
     kvname = 'history'
     cards = {}
@@ -110,7 +111,7 @@ class HistoryScreen(CScreen):
     def __init__(self, **kwargs):
         self.ra_dialog = None
         super(HistoryScreen, self).__init__(**kwargs)
-        self.menu_actions = [ ('Label', self.label_dialog), ('Details', self.show_tx)]
+        self.menu_actions = [('Label', self.label_dialog), ('Details', self.show_tx)]
 
     def show_tx(self, obj):
         tx_hash = obj.tx_hash
@@ -123,9 +124,11 @@ class HistoryScreen(CScreen):
         from .dialogs.label_dialog import LabelDialog
         key = obj.tx_hash
         text = self.app.wallet.get_label(key)
+
         def callback(text):
             self.app.wallet.set_label(key, text)
             self.update()
+
         d = LabelDialog(_('Enter Transaction Label'), text, callback)
         d.open()
 
@@ -172,7 +175,6 @@ class HistoryScreen(CScreen):
 
 
 class SendScreen(CScreen):
-
     kvname = 'send'
     payment_request = None
 
@@ -219,7 +221,7 @@ class SendScreen(CScreen):
             return
         # save address as invoice
         from bitcoinnano.paymentrequest import make_unsigned_request, PaymentRequest
-        req = {'address':self.screen.address, 'memo':self.screen.message}
+        req = {'address': self.screen.address, 'memo': self.screen.message}
         amount = self.app.get_amount(self.screen.amount) if self.screen.amount else 0
         req['amount'] = amount
         pr = make_unsigned_request(req).SerializeToString()
@@ -250,7 +252,8 @@ class SendScreen(CScreen):
         else:
             address = str(self.screen.address)
             if not address:
-                self.app.show_error(_('Recipient not specified.') + ' ' + _('Please scan a Bitcoin Nano address or a payment request'))
+                self.app.show_error(
+                    _('Recipient not specified.') + ' ' + _('Please scan a Bitcoin Nano address or a payment request'))
                 return
             if not bitcoin.is_address(address):
                 self.app.show_error(_('Invalid Bitcoin Nano Address') + ':\n' + address)
@@ -262,7 +265,7 @@ class SendScreen(CScreen):
                 return
             outputs = [(bitcoin.TYPE_ADDRESS, address, amount)]
         message = self.screen.message
-        amount = sum(map(lambda x:x[2], outputs))
+        amount = sum(map(lambda x: x[2], outputs))
         self._do_send(amount, message, outputs)
 
     def _do_send(self, amount, message, outputs):
@@ -284,21 +287,24 @@ class SendScreen(CScreen):
             _("Mining fee") + ": " + self.app.format_amount_and_units(fee),
         ]
         if fee >= config.get('confirm_fee', 100000):
-            msg.append(_('Warning')+ ': ' + _("The fee for this transaction seems unusually high."))
+            msg.append(_('Warning') + ': ' + _("The fee for this transaction seems unusually high."))
         msg.append(_("Enter your PIN code to proceed"))
         self.app.protected('\n'.join(msg), self.send_tx, (tx, message))
 
     def send_tx(self, tx, message, password):
         if self.app.wallet.has_password() and password is None:
             return
+
         def on_success(tx):
             if tx.is_complete():
                 self.app.broadcast(tx, self.payment_request)
                 self.app.wallet.set_label(tx.hash(), message)
             else:
                 self.app.tx_dialog(tx)
+
         def on_failure(error):
             self.app.show_error(error)
+
         if self.app.wallet.can_sign(tx):
             self.app.show_info("Signing...")
             self.app.sign_tx(tx, password, on_success, on_failure)
@@ -307,7 +313,6 @@ class SendScreen(CScreen):
 
 
 class ReceiveScreen(CScreen):
-
     kvname = 'receive'
 
     def update(self):
@@ -394,10 +399,10 @@ class ReceiveScreen(CScreen):
 
 
 invoice_text = {
-    PR_UNPAID:_('Pending'),
-    PR_UNKNOWN:_('Unknown'),
-    PR_PAID:_('Paid'),
-    PR_EXPIRED:_('Expired')
+    PR_UNPAID: _('Pending'),
+    PR_UNKNOWN: _('Unknown'),
+    PR_PAID: _('Paid'),
+    PR_EXPIRED: _('Expired')
 }
 request_text = {
     PR_UNPAID: _('Pending'),
@@ -450,7 +455,8 @@ class InvoicesScreen(CScreen):
             ci = self.get_card(pr)
             invoices_list.add_widget(ci)
         if not _list:
-            msg = _('This screen shows the list of payment requests that have been sent to you. You may also use it to store contact addresses.')
+            msg = _(
+                'This screen shows the list of payment requests that have been sent to you. You may also use it to store contact addresses.')
             invoices_list.add_widget(EmptyLabel(text=msg))
 
     def do_pay(self, obj):
@@ -468,15 +474,17 @@ class InvoicesScreen(CScreen):
             if result:
                 self.app.wallet.invoices.remove(obj.key)
                 self.app.update_tab('invoices')
+
         d = Question(_('Delete invoice?'), cb)
         d.open()
 
 
 address_icon = {
-    'Pending' : 'atlas://gui/kivy/theming/light/important',
-    'Paid' : 'atlas://gui/kivy/theming/light/confirmed'
+    'Pending': 'atlas://gui/kivy/theming/light/important',
+    'Paid': 'atlas://gui/kivy/theming/light/confirmed'
 }
- 
+
+
 class AddressScreen(CScreen):
     kvname = 'address'
     cards = {}
@@ -508,17 +516,16 @@ class AddressScreen(CScreen):
                 s = ''
             ci.status = s + ': ' + self.app.format_amount_and_units(requested_amount)
         else:
-            ci.status = _('Funded') if balance>0 else _('Unused')
+            ci.status = _('Funded') if balance > 0 else _('Unused')
         return ci
-
 
     def update(self):
         self.menu_actions = [('Receive', self.do_show), ('Details', self.do_view)]
         wallet = self.app.wallet
-        if not hasattr(wallet,'change_addresses'):
-            wallet.change_addresses=[]
-        if not hasattr(wallet,'receiving_addresses'):
-            wallet.receiving_addresses=[]
+        if not hasattr(wallet, 'change_addresses'):
+            wallet.change_addresses = []
+        if not hasattr(wallet, 'receiving_addresses'):
+            wallet.receiving_addresses = []
         _list = wallet.change_addresses if self.screen.show_change else wallet.receiving_addresses
         search = self.screen.message
         container = self.screen.ids.search_container
@@ -565,7 +572,7 @@ class AddressScreen(CScreen):
             self.app.show_pr_details(req, status, False)
 
         else:
-            req = { 'address': obj.address, 'status' : obj.status }
+            req = {'address': obj.address, 'status': obj.status}
             status = obj.status
             c, u, x = self.app.wallet.get_addr_balance(obj.address)
             balance = c + u + x
@@ -579,13 +586,13 @@ class AddressScreen(CScreen):
             if result:
                 self.app.wallet.remove_payment_request(obj.address, self.app.electrum_config)
                 self.update()
+
         d = Question(_('Delete request?'), cb)
         d.open()
 
     def ext_search(self, card, search):
-        return card.memo.find(search) >= 0 or card.amount.find(search) >= 0
-
-
+        search = search[:-4] if search.endswith("Nano") else search
+        return card.memo.find(search) >= 0 or card.amount[:-4].find(search) >= 0
 
 
 class TabbedCarousel(Factory.TabbedPanel):
@@ -602,7 +609,7 @@ class TabbedCarousel(Factory.TabbedPanel):
         n = len(self.tab_list)
         if idx in [0, 1]:
             scroll_x = 1
-        elif idx in [n-1, n-2]:
+        elif idx in [n - 1, n - 2]:
             scroll_x = 0
         else:
             scroll_x = 1. * (n - idx - 1) / (n - 1)

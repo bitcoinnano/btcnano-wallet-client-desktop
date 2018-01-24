@@ -429,8 +429,7 @@ class ElectrumWindow(App):
             PythonActivity.mActivity.startActivityForResult(intent, 0)
         except:
             self.show_error(
-                _('Could not start Barcode Scanner.') + ' ' + _('Please install the Barcode Scanner app from ZXing'))
-            self.show_info('Please install the Barcode Scanner app from ZXing')
+                _('Could not start Barcode Scanner.') + ' ' + _('Please install the Barcode Scanner app'))
 
     def scan_qr_zxing(self, on_complete):
         # uses zxing embedded lib
@@ -517,7 +516,6 @@ class ElectrumWindow(App):
         uri = self.electrum_config.get('url')
         if uri:
             self.set_URI(uri)
-
 
     def get_wallet_path(self):
         if self.wallet:
@@ -776,7 +774,7 @@ class ElectrumWindow(App):
                               duration=duration, modal=modal)
 
     def show_info(self, error, width='200dp', pos=None, arrow_pos=None,
-                  exit=False, duration=0, modal=False):
+                  exit=False, duration=2, modal=False):
         ''' Show a Info Message Bubble.
         '''
         self.show_error(error, icon='atlas://gui/kivy/theming/light/important',
@@ -872,14 +870,16 @@ class ElectrumWindow(App):
         else:
             self.show_info(_('Cannot broadcast transaction') + ':\n' + _('Not connected'))
 
-    def description_dialog(self, screen):
+    def description_dialog(self, screen, title= _("Enter description")):
+        if title == "Enter description":
+            title = _("Enter description")
         from .uix.dialogs.label_dialog import LabelDialog
         text = screen.message
 
         def callback(text):
             screen.message = text
 
-        d = LabelDialog(_('Enter description'), text, callback)
+        d = LabelDialog(title, text, callback)
         d.open()
 
     @profiler

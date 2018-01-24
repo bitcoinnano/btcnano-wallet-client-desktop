@@ -784,7 +784,7 @@ msgid "Find"
 msgstr "找到"
 
 #: gui/qt/network_dialog.py:80
-msgid  "follow this branch"
+msgid "follow this branch"
 msgstr "按照这一分支"
 
 #: gui/qt/util.py:326
@@ -858,7 +858,7 @@ msgstr "如果您选中此框，您的交易将被标记为非最终"
 
 #: gui/kivy/uix/dialogs/installwizard.py:528
 msgid "If you forget your PIN or lose your device, your seed phrase will be the only way to recover your funds."
-msgstr "如果您忘记了密码或丢失了设备，那么您的种子密语将是恢复您的资金的唯一方法"
+msgstr "如果您忘记了密码或丢失了设备，那么您的种子将是恢复您的资金的唯一方法"
 
 #: gui/qt/installwizard.py:370
 msgid "If you lose your seed, your money will be permanently lost."
@@ -995,7 +995,7 @@ msgstr "查询交易记录"
 
 #: gui/qt/main_window.py:376
 msgid "Make sure you own the seed phrase or the private keys, before you request Bitcoins to be sent to this wallet."
-msgstr "请确保您拥有种子密语或私钥，然后再请求将比特币发送到此钱包"
+msgstr "请确保您拥有种子或私钥，然后再请求将比特币发送到此钱包"
 
 #: gui/qt/installwizard.py:481 gui/kivy/uix/dialogs/installwizard.py:689
 #: gui/kivy/uix/dialogs/installwizard.py:693
@@ -1260,11 +1260,11 @@ msgstr "等待处理"
 
 #: gui/qt/installwizard.py:26
 msgid "Please enter a seed phrase or a master key (xpub or xprv):"
-msgstr "请输入种子密语或主密钥 (xpub or xprv):"
+msgstr "请输入种子或主密钥 (xpub or xprv):"
 
 #: gui/qt/installwizard.py:24
 msgid "Please enter a seed phrase, a master key, a list of Bitcoin addresses, or a list of private keys"
-msgstr "请输入种子密语，主密钥，一条比特币地址，或一条私钥"
+msgstr "请输入种子，主密钥，一条比特币地址，或一条私钥"
 
 #: gui/qt/installwizard.py:348
 msgid "Please enter the master public key (xpub) of your cosigner."
@@ -1285,7 +1285,7 @@ msgstr "请输入您的种子派生密码。注意：这不是你的加密密码
 
 #: gui/qt/installwizard.py:361
 msgid "Please enter your seed phrase in order to restore your wallet."
-msgstr "为了恢复您的钱包请输入您的种子密语"
+msgstr "为了恢复您的钱包请输入您的种子"
 
 #: gui/kivy/main_window.py:389
 msgid "Please install the Barcode Scanner app"
@@ -1305,7 +1305,7 @@ msgstr "请重启 Electrum 以激活用户界面设置"
 
 #: gui/kivy/uix/dialogs/installwizard.py:778
 msgid "Please retype your seed phrase, to confirm that you properly saved it"
-msgstr "请重新输入您的种子密语，以确认您已妥善保存“"
+msgstr "请重新输入您的种子，以确认您已妥善保存“"
 
 #: gui/qt/seed_dialog.py:37
 #, python-format
@@ -1318,7 +1318,7 @@ msgstr "请与你的搭档分享"
 
 #: gui/kivy/uix/dialogs/installwizard.py:563
 msgid "Please type your seed phrase using the virtual keyboard."
-msgstr "请使用虚拟键盘输入您的种子密语。"
+msgstr "请使用虚拟键盘输入您的种子。"
 
 #: gui/qt/util.py:230
 msgid "Please wait"
@@ -2301,16 +2301,16 @@ msgstr "虚拟键盘"
 msgid "Hardware Keystore"
 msgstr "硬件密钥库"
 
-msgid 'No hardware device detected.'
-msgstr "没有检测到硬件设备"
+msgid "No hardware device detected."
+msgstr ""
 
-msgid 'To trigger a rescan, press \'Next\'.'
+msgid "To trigger a rescan, press \"Next\"."
 msgstr "要触发重新扫描，请按“下一步”"
 
-msgid 'If your device is not detected on Windows, go to "Settings", "Devices", "Connected devices", and do "Remove device". Then, plug your device again.'
+msgid "If your device is not detected on Windows, go to 'Settings', 'Devices', 'Connected devices', and do 'Remove device'. Then, plug your device again."
 msgstr "如果在Windows上未检测到您的设备，请转至“设置”，“设备”，“连接的设备”，然后执行“删除设备”。然后，再次插入您的设备"
 
-msgid 'On Linux, you might have to add a new permission to your udev rules.'
+msgid "On Linux, you might have to add a new permission to your udev rules."
 msgstr "在Linux中，您可能需要为您的udev规则添加新的权限"
 
 msgid "Incorrect password"
@@ -2343,10 +2343,6 @@ msgstr "所有"
 
 msgid "Search"
 msgstr "搜索"
-
-msgid "Attention : If you want to use QR scanner , please install Barcode Scanner first."
-msgstr "提醒：如果你需要使用二维码扫描，请先安装Barcode Scanner."
-
 
 msgid "Wallet Details"
 msgstr "钱包详情"
@@ -2381,10 +2377,10 @@ msgid "Show seed"
 msgstr "显示种子"
 
 msgid "ENTER YOUR SEED PHRASE"
-msgstr "输入你的种子密语"
+msgstr "输入你的种子"
 
 msgid "PLEASE WRITE DOWN YOUR SEED PHRASE"
-msgstr "请在纸上记下你的种子密语"
+msgstr "请在纸上记下你的种子"
 
 msgid "Hide seed"
 msgstr "隐藏种子"
@@ -2435,7 +2431,7 @@ msgstr "发送中"
 msgid "Cannot broadcast transaction"
 msgstr "不能广播事务"
 
-msgid 'Not connected'
+msgid "Not connected"
 msgstr "不能连接"
 
 msgid "PIN numbers do not match"
@@ -2457,7 +2453,7 @@ msgid "Invalid amount"
 msgstr "无效的金额"
 
 msgid "Invalid Bitcoin Nano Address"
-msgstr '错误的Bitcoin Nano地址'
+msgstr "错误的Bitcoin Nano地址"
 
 msgid "Recipient not specified."
 msgstr "没有指定收款人"
@@ -2500,7 +2496,7 @@ msgid "Change your PIN code."
 msgstr "修改您的PIN"
 
 msgid "Send your change to separate addresses."
-msgstr "将你的找零发送到另外的地址"
+msgstr "将你的找零发送到钱包的另外一个地址"
 
 msgid "Send excess coins to change addresses"
 msgstr "发送多余的币到找零地址"
@@ -2534,4 +2530,264 @@ msgstr "未处理请求"
 
 msgid "Request expired"
 msgstr "过期请求"
+
+msgid "This screen shows your list of transactions. It is currently empty."
+msgstr "这个窗口显示您的交易列表,目前为空"
+
+
+msgid "Enter keyword: description or amount."
+msgstr "输入关键字：金额或说明"
+
+msgid "Enter your PIN code in order to decrypt your private key"
+msgstr "输入您的PIN码以解密您的私钥 "
+
+msgid "ok"
+msgstr "好"
+
+msgid "cancel"
+msgstr "取消 "
+
+msgid "Enter Transaction Label"
+msgstr "输入交易标签 "
+
+msgid "Pruned transaction outputs"
+msgstr "修改交易输出 "
+
+msgid "Invoice saved"
+msgstr "保存发票 "
+
+msgid "Enter your PIN code to proceed"
+msgstr "输入您的PIN码进行 "
+
+msgid "Payment received"
+msgstr "已收到付款 "
+
+msgid "Payment received"
+msgstr "已收到付款 "
+
+msgid "Share Bitcoin Nano Request"
+msgstr "分享Bitcoin Nano请求 "
+
+msgid "Received"
+msgstr "收到 "
+
+msgid "No Amount"
+msgstr "没有金额"
+
+msgid "This screen shows the list of payment requests that have been sent to you. You may also use it to store contact addresses."
+msgstr "此屏幕显示已发送给您的付款请求列表。您也可以使用它来存储联系地址 "
+
+msgid "Delete request?"
+msgstr "删除请求 "
+
+msgid "About Bitcoin Nano"
+msgstr "关于Bitcoin Nano "
+
+msgid "Licence"
+msgstr "执照 "
+
+msgid "Request"
+msgstr "请求 "
+
+msgid "Request amount"
+msgstr "请求金额 "
+
+msgid "Expiration"
+msgstr "到期 "
+
+msgid "Private Key"
+msgstr "私钥"
+
+msgid "Hide private key"
+msgstr "隐藏私钥 "
+
+msgid "Export private key"
+msgstr "导出私钥“ "
+
+msgid "%d connections."
+msgstr "%d个连接 "
+
+msgid "Fork detected at block %d"
+msgstr "在区块%d检测到分叉 "
+
+msgid "No fork detected"
+msgstr "未检测到分叉 "
+
+msgid "Connected nodes are on the same chain"
+msgstr "连接的节点在同一个链上 "
+
+msgid "Proxy mode"
+msgstr "代理模式 "
+
+msgid "Username"
+msgstr "用户名"
+
+msgid "Bitcoin Nano Address"
+msgstr "Bitcoin Nano地址 "
+
+msgid "No Description"
+msgstr "没有说明 "
+
+msgid "Bitcoin Nano requests your transaction history from a single server. The returned history is checked against blockchain headers sent by other nodes, using Simple Payment Verification (SPV)."
+msgstr "Bitcoin Nano从一台服务器请求您的交易记录。，返回的历史记录用其他节点发送的区块链头检查，使用简单付款验证（SPV）检查 "
+
+msgid "Choose from peers"
+msgstr "从同行中选择 "
+
+msgid "Unmatured"
+msgstr "未成熟 "
+
+msgid "This wallet is watching-only"
+msgstr "这个钱包只能收看 "
+
+msgid "Bump fee"
+msgstr "通话费 "
+
+msgid "Current Fee"
+msgstr "当前费用 "
+
+msgid "New Fee"
+msgstr "新费用 "
+
+msgid "Enable"
+msgstr "启用 "
+
+msgid "Transaction Fees"
+msgstr "交易费用 "
+
+msgid "Dynamic Fees"
+msgstr "动态费用 "
+
+msgid "Currency"
+msgstr "货币 "
+
+msgid "Here is your master public key. Share it with your cosigners."
+msgstr "这是你的主公钥，和你的委托人共享。 "
+
+msgid "Add cosigner"
+msgstr "添加委托人 "
+
+msgid "Keystore"
+msgstr "密钥库 "
+
+msgid "Add a cosigner to your multi-sig wallet"
+msgstr "添加一个委托人到你的multi-sig钱包 "
+
+msgid "Enter cosigner key"
+msgstr "输入委托人 "
+
+msgid "Enter cosigner seed"
+msgstr "输入委托人种子 "
+
+msgid "Cosign with hardware device"
+msgstr "与硬件设备兼容 "
+
+msgid "No hardware wallet support found on your system."
+msgstr "没有在您的系统上找到硬件钱包支持 "
+
+msgid "Please install the relevant libraries (eg python-trezor for Trezor)."
+msgstr "请安装相关的库（例如Trezor的python-trezor） "
+
+msgid "To trigger a rescan, press \'Next\'."
+msgstr "要触发重新扫描，请按“下一步” "
+
+msgid "initialized"
+msgstr "初始化 "
+
+msgid "wiped"
+msgstr "抹去 "
+
+msgid "An unnamed %s"
+msgstr "一个未命名的%s "
+
+msgid "Select a device"
+msgstr "选择一个设备 "
+
+msgid "Enter your wallet derivation here."
+msgstr "在这里输入你的钱包派生。 "
+
+msgid "If you are not sure what this is, leave this field unchanged."
+msgstr "如果您不确定这是什么，请保持此处不变。“ "
+
+msgid "If you want the wallet to use legacy Bitcoin Nano addresses use m/44'/0'/0'"
+msgstr "如果您希望钱包使用旧版Bitcoin Nano地址，请使用m/44'/0'/0' "
+
+msgid "If you want the wallet to use Bitcoin Cash addresses use m/44'/145'/0'"
+msgstr "如果你想要钱包使用Bitcoin Cash地址使用m/44'/145'/0' "
+
+msgid "Derivation"
+msgstr "推导"
+
+msgid "Enter your wallet derivation here."
+msgstr "在这里输入你的钱包派生。"
+
+msgid "If you are not sure what this is, leave this field unchanged."
+msgstr "如果您不确定这是什么，请保持此处不变 "
+
+msgid "Derivation"
+msgstr "推导"
+
+msgid "Seed extension"
+msgstr "种子延伸"
+
+msgid "You may extend your seed with custom words."
+msgstr "你可以自定义扩展你的种子"
+
+msgid "Your seed extension must be saved together with your seed."
+msgstr "你的种子延伸必须与你的种子一起保存。"
+
+msgid "Note that this is NOT your encryption password."
+msgstr "请注意，这不是您的加密密码。"
+
+msgid "Wrong key type"
+msgstr "错误的键类型"
+
+msgid "Error: duplicate master public key"
+msgstr "重复的主公钥密钥类型"
+
+msgid "Cannot add this cosigner:"
+msgstr "不能添加这个委托人"
+
+msgid "Confirm Seed Extension"
+msgstr "确认种子延伸 "
+
+msgid "Your seed extension must be saved together with your seed."
+msgstr "你的种子延伸必须与你的种子一起保存。"
+
+msgid "Please type it here."
+msgstr "请在这里输入"
+
+msgid "No"
+msgstr "不"
+
+msgid "Yes"
+msgstr "是的"
+
+msgid "Question"
+msgstr "问题"
+
+msgid "Seed Options"
+msgstr "种子选项"
+
+msgid "Within %d blocks"
+msgstr "在%d区块内"
+
+msgid "Enter your PIN code in order to sign this transaction"
+msgstr "输入您的PIN码以签署本次交易 "
+
+msgid "Signing"
+msgstr "签名"
+
+msgid "Raw Transaction"
+msgstr "原始交易"
+
+msgid "Wallets"
+msgstr "钱包"
+
+msgid "Open"
+msgstr "打开"
+
+msgid "Attention : If you want to use QR scanner , please install Barcode Scanner first."
+msgstr "提醒：如果你需要使用二维码扫描，请先安装Barcode Scanner."
+
 

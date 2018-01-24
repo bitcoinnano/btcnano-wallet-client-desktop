@@ -44,7 +44,7 @@ icon.filename = %(source.dir)s/gui/kivy/theming/light/logo.png
 orientation = portrait
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = False
+fullscreen = True
 
 
 #

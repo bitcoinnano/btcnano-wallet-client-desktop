@@ -95,8 +95,8 @@ AddressScreen:
                         rgba: 0.9, 0.9, 0.9, 1
                 AddressButton:
                     id: change
-                    text: root.message if root.message else _('Search')
-                    on_release: Clock.schedule_once(lambda dt: app.description_dialog(addr_screen))
+                    text: _('Search')
+                    on_release: Clock.schedule_once(lambda dt: app.description_dialog(addr_screen,_('Enter keyword: description or amount.')))
         ScrollView:
             GridLayout:
                 cols: 1

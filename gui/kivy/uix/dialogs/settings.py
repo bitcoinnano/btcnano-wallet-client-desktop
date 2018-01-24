@@ -123,6 +123,7 @@ class SettingsDialog(Factory.Popup):
                 self.config.set_key("language", key, True)
                 item.lang = self.get_language_name()
                 self.app.language = key
+                self.app._trigger_update_status()
             self._language_dialog = ChoiceDialog(_('Language'), languages, l, cb)
         self._language_dialog.open()
 

@@ -1,13 +1,13 @@
 import gettext
 
-class _(str):
 
+class _(str):
     observers = set()
     lang = None
 
     def __new__(cls, s, *args, **kwargs):
         if _.lang is None:
-            _.switch_lang('en')
+            _.switch_lang('zh_CN')
         t = _.translate(s, *args, **kwargs)
         o = super(_, cls).__new__(cls, t)
         o.source_text = s

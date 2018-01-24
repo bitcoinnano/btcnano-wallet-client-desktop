@@ -2380,7 +2380,7 @@ msgid "ENTER YOUR SEED PHRASE"
 msgstr "输入你的种子"
 
 msgid "PLEASE WRITE DOWN YOUR SEED PHRASE"
-msgstr "请在纸上记下你的种子"
+msgstr "请慎重保存你的种子"
 
 msgid "Hide seed"
 msgstr "隐藏种子"

@@ -2790,4 +2790,5 @@ msgstr "打开"
 msgid "Attention : If you want to use QR scanner , please install Barcode Scanner first."
 msgstr "提醒：如果你需要使用二维码扫描，请先安装Barcode Scanner."
 
-
+msgid "If you do not know what this is, leave this field empty."
+msgstr "如果您不确定这是什么，请保持此处不变 "

@@ -884,7 +884,7 @@ class InstallWizard(BaseWizard, Widget):
         ])
         wallet_kinds = [
             ('standard', _("Standard wallet")),
-            ('multisig', _("Multi-signature wallet")),
+            # ('multisig', _("Multi-signature wallet")),
             ('imported', _("Import Bitcoin Nano addresses or private keys")),
         ]
         choices = [pair for pair in wallet_kinds if pair[0] in wallet_types]

@@ -176,7 +176,7 @@ Builder.load_string('''
                 size_hint_x : 0.2 if root.show_max else 0
                 size_hint_y: None
                 height: '48dp'
-                text: 'Max'
+                text: _('Max')
                 on_release:
                     input.text = app.get_max_amount()
         Widget:

@@ -21,6 +21,7 @@ Builder.load_string('''
             pos_hint: {'center_y':.5}
             text:''
             multiline: False
+            font_name: 'data/fonts/SourceHanSansK-Light.ttf'
             background_normal: 'atlas://gui/kivy/theming/light/tab_btn'
             background_active: 'atlas://gui/kivy/theming/light/textinput_active'
             hint_text_color: self.foreground_color

@@ -308,7 +308,7 @@ class ElectrumWindow(App):
         if is_address(data):
             self.set_URI(data)
             return
-        if data.startswith('bitcoinnano:') or data.startswith('bitcoin:N') or data.startswith('bitcoincash:N'):
+        if data.startswith('bitcoinnano:'):
             self.set_URI(data)
             return
         # try to decode transaction

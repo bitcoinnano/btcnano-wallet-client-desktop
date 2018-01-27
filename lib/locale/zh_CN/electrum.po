@@ -518,7 +518,7 @@ msgstr "详细"
 
 #: gui/kivy/main_window.py:646
 msgid "Disconnected"
-msgstr "不连贯"
+msgstr "网络未连接"
 
 #: gui/qt/main_window.py:1082
 msgid "Display the details of your transactions before signing it."
